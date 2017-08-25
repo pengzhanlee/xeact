@@ -96,7 +96,7 @@ export let attrValueGuesser = (attrValue) => {
 
                 // chrome 中, 如果一个属性值与某个元素的 id 相等
                 // 则此处会被解析为 element
-                if(!result instanceof HTMLElement) {
+                if(!(result instanceof HTMLElement)) {
                     guess.value = result;
                     guess.type = JSON;
                 }
