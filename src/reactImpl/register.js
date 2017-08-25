@@ -1,6 +1,6 @@
 import reactConnector from './connector';
-import logger from 'utils/logger';
-import {getDisplayName} from "../../../utils/ReactUtils";
+import logger from '../utils/logger';
+import {getDisplayName} from "../utils/ReactUtils";
 import paddingContainer from "./paddingContainer";
 import {
     reactWebComponentDisplayName, componentNamespace as namespace,

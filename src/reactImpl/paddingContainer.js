@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {getDisplayName} from "../../../utils/ReactUtils";
+import {getDisplayName} from "../utils/ReactUtils";
 
 /**
  * 填充 children 到容器组件

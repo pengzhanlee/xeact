@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {attrsToProps, attrToProp} from "../attributes";
-import logger from 'utils/logger';
+import logger from '../utils/logger';
 import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
 import * as dom from "../dom";
 import {attrFlag} from "../identifiers";
-import {suuid} from 'utils/guid';
+import {suuid} from '../utils/guid';
 
 /**
  * React 连接器
