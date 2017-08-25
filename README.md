@@ -27,25 +27,19 @@ class Box extends Component {
     static propTypes = {
 
         // observe attribute change from dom
-
         @observed
         header: PropTypes.string,
-
     };
 
     @exposed
     method() {
-
         // this method can be called from dom api
-
     }
 
     headerClick() {
-
         dispatchEvent(this, 'headerClick' , {
             header: this.props.header
         });
-
     }
 
     render() {
@@ -62,11 +56,13 @@ class Box extends Component {
 }
 ```
 
-2. use the registered component as a Custom Elements in HTML
+2. use the registered component as a Custom Element in HTML
 ```xml
-
-<x-box>
-    <p>Helle, World</p>
+<x-box header="Hello">
+    <p>World</p>
 </x-box>
-
 ```
+
+3. reload page
+
+![](https://raw.githubusercontent.com/pengzhanlee/xeact/master/docs/image/quickStart.png)
