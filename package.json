@@ -1,6 +1,6 @@
 {
   "name": "xeact",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/pengzhanlee/xeact"
@@ -10,7 +10,7 @@
     "Web Components"
   ],
   "author": "Pengzhan Lee <pengzhan.lee@gmail.com>",
-  "license": "MIT",
+  "license": "Apache License 2.0",
   "main": "src/index.js",
   "scripts": {
     "test": "jest"
