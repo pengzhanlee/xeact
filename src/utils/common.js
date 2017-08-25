@@ -1,6 +1,6 @@
 import sguid from 'shortid';
 
-export default function guid() {
+export function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
@@ -18,3 +18,8 @@ export function suuid() {
     return sguid.generate();
 }
 
+export function getDisplayName(WrappedComponent) {
+    return WrappedComponent.displayName ||
+        WrappedComponent.name ||
+        'Component';
+}

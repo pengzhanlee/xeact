@@ -6,7 +6,7 @@ import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
 import * as dom from "../dom";
 import {attrFlag} from "../identifiers";
-import {suuid} from '../utils/guid';
+import {suuid} from '../utils/common';
 
 /**
  * React 连接器
