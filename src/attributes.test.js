@@ -16,10 +16,10 @@ describe('isAttrIgnored()', () => {
         expect(isAttrIgnored('onclick')).toBe(true);
     });
 
-    // test('DOM Level 0 Event, 仅满足字符特征', () => {
-    //     delete global['onclick'];
-    //     expect(isAttrIgnored('onclick')).toBe(false);
-    // });
+    test('DOM Level 0 Event, 仅满足字符特征', () => {
+        delete global['onclick'];
+        expect(isAttrIgnored('onclick')).toBe(false);
+    });
 
 });
 
