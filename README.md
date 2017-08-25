@@ -1,7 +1,8 @@
 # xeact
 
-connect your React Components to [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
+[![Build Status](https://travis-ci.org/pengzhanlee/xeact.svg?branch=master)](https://travis-ci.org/pengzhanlee/xeact)
 
+connect your React Components to [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
 
 Installation
 ------------
