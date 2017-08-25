@@ -14,7 +14,7 @@
     "main": "lib/index.js",
     "scripts": {
         "build": "babel src -d lib",
-        "test": "jest --coverage"
+        "test": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
         "shortid": "^2.2.8"
@@ -36,6 +36,7 @@
         "babel-preset-latest": "^6.24.1",
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
+        "coveralls": "^2.13.1",
         "eslint": "^4.5.0",
         "eslint-config-airbnb": "^15.1.0",
         "eslint-plugin-import": "^2.7.0",
