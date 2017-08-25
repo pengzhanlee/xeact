@@ -14,7 +14,7 @@
     "main": "lib/index.js",
     "scripts": {
         "build": "babel src -d lib",
-        "test": "jest"
+        "test": "jest --coverage"
     },
     "dependencies": {
         "shortid": "^2.2.8"
@@ -53,9 +53,9 @@
             "src/**/*.js"
         ],
         "moduleDirectories": [
-            "node_modules",
-            "./"
+            "node_modules"
         ],
+        "rootDir": "src/",
         "setupFiles": [],
         "verbose": true,
         "moduleNameMapper": {
