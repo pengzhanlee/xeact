@@ -19,8 +19,8 @@ Quick Start
 import xeact, {observed, exposed, dispatchEvent} from "xeact";
 
 // register your Component with tag name 'chart'
-
 @xeact('chart')
+
 export default
 class Box extends Component {
 
@@ -49,6 +49,8 @@ class Box extends Component {
             {header &&
             <div className="box-header" onClick={this.headerClick}>{header}</div>
             }
+
+            {/* childNodes of the <x-box> will be append to element which has a `body` ref attribute. */}
             <div className="box-body" ref="body" />
         </div>
     }
