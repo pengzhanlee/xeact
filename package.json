@@ -1,6 +1,6 @@
 {
   "name": "xeact",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/pengzhanlee/xeact"
@@ -23,6 +23,7 @@
     "react-dom": "^0.14.9 || >=15.0.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-react-display-name": "^6.25.0",
     "eslint": "^4.5.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
