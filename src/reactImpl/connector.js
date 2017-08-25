@@ -5,7 +5,7 @@ import logger from 'utils/logger';
 import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
 import * as dom from "../dom";
-import {attrFlag, componentNamespace} from "../identifiers";
+import {attrFlag} from "../identifiers";
 import {suuid} from 'utils/guid';
 
 /**
@@ -184,12 +184,12 @@ const connector = (elementName, ReactComponent) => {
             //
             // if(!this.connected) return;
 
-            if(
+            if (
                 this.connected
-                // &&
-                // !this._webComponentTemp
-                // &&
-                // !this.parentNode
+            // &&
+            // !this._webComponentTemp
+            // &&
+            // !this.parentNode
             ) {
 
                 // let children = this.querySelectorAll(`[${attrFlag}]`);
@@ -275,7 +275,3 @@ const connector = (elementName, ReactComponent) => {
 };
 
 export default connector;
-
-
-
-
