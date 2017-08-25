@@ -15,7 +15,7 @@
     "scripts": {
         "build": "babel src -d lib",
         "test": "jest",
-        "ci": "npm run build && jest --coverage | cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+        "ci": "npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
         "shortid": "^2.2.8"
