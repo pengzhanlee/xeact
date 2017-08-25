@@ -1,0 +1,46 @@
+{
+  "name": "xeact",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pengzhanlee/xeact"
+  },
+  "keywords": [
+    "react",
+    "Web Components"
+  ],
+  "author": "Pengzhan Lee <pengzhan.lee@gmail.com>",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "shortid": "^2.2.8"
+  },
+  "peerDependencies": {
+    "react": "^0.14.9 || >=15.0.0",
+    "react-dom": "^0.14.9 || >=15.0.0"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "jest": {
+    "globals": {},
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "./"
+    ],
+    "setupFiles": [],
+    "verbose": true,
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  }
+}
