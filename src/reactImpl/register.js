@@ -3,9 +3,10 @@ import logger from '../utils/logger';
 import {getDisplayName} from "../utils/common";
 import paddingContainer from "./paddingContainer";
 import {
-    reactWebComponentDisplayName, componentNamespace as namespace,
+    reactWebComponentDisplayName,
     observedSymbol
 } from "../identifiers";
+import {config} from "../configure";
 
 
 /**
@@ -84,9 +85,9 @@ export function register(name, {
         // parse observedAttributes
         let observedAttributes = (WrappedComponent.observedAttributes = WrappedComponent.propTypes[observedSymbol] || []);
 
-        reactConnector(`${namespace}-${name}`, WebComponentsHOC);
+        reactConnector(`${config.namespace}-${name}`, WebComponentsHOC);
 
-        logger.info(`register *${namespace}-${name}* with attributes ( ${observedAttributes.length ? observedAttributes.join(' | ') : 'null'} ) observed...`);
+        logger.info(`register *${config.namespace}-${name}* with attributes ( ${observedAttributes.length ? observedAttributes.join(' | ') : 'null'} ) observed...`);
         return WebComponentsHOC;
     }
 

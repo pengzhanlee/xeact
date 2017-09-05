@@ -19,7 +19,7 @@ export const observedSymbol = Symbol('ReactWebComponentsObservedAttribute');
  * CustomElement 命名空间
  * @type {string}
  */
-export const componentNamespace = 'x';
+export const defaultComponentNamespace = 'x';
 
 /**
  * WebComponent 包装组件 displayName  (调试用)
