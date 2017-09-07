@@ -12,11 +12,24 @@
     "author": "Pengzhan Lee <pengzhan.lee@gmail.com>",
     "license": "Apache License 2.0",
     "main": "lib/index.js",
+    "module": "es/index.js",
     "scripts": {
-        "build": "babel src -d lib",
+        "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --ignore *.test.js",
+        "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore *.test.js",
+        "build:umd": "cross-env NODE_ENV=development webpack",
+        "build:min": "cross-env NODE_ENV=production webpack",
+        "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:min",
+        "clean": "rimraf lib dist es coverage",
+        "prepublish": "npm run clean && npm run build",
         "test": "jest",
         "ci": "npm run build && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
+    "files": [
+        "dist",
+        "lib",
+        "src",
+        "es"
+    ],
     "dependencies": {
         "shortid": "^2.2.8"
     },
@@ -38,6 +51,7 @@
         "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
         "coveralls": "^2.13.1",
+        "cross-env": "^5.0.5",
         "eslint": "^4.5.0",
         "eslint-config-airbnb": "^15.1.0",
         "eslint-plugin-import": "^2.7.0",
@@ -47,6 +61,7 @@
         "path": "^0.12.7",
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
+        "rimraf": "^2.6.1",
         "webpack": "^3.5.5"
     },
     "jest": {
