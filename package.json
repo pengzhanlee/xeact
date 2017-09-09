@@ -31,6 +31,7 @@
         "es"
     ],
     "dependencies": {
+        "@webcomponents/webcomponentsjs": "^1.0.10",
         "shortid": "^2.2.8"
     },
     "peerDependencies": {
