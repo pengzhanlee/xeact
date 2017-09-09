@@ -40,6 +40,7 @@ import {suuid} from '../utils/common';
 const connectedElements = new Set();
 
 const connector = (elementName, ReactComponent) => {
+
     let reactElement;
     let props;
 
@@ -130,6 +131,7 @@ const connector = (elementName, ReactComponent) => {
 
             props = attrsToProps(this.attributes);
             props._id = this._id;
+
             props.children = dom.getChildren(this);
             props.container = this;
 
@@ -270,8 +272,9 @@ const connector = (elementName, ReactComponent) => {
 
     }
 
-
-    customElements.define(elementName, NewElement);
+    document.addEventListener("DOMContentLoaded", function(event) {
+        customElements.define(elementName, NewElement);
+    });
 };
 
 export default connector;

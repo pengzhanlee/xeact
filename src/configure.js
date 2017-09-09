@@ -1,6 +1,8 @@
 import {defaultComponentNamespace} from './identifiers';
 
-export let config = {};
+export let config = {
+    namespace: defaultComponentNamespace
+};
 
 /**
  * 配置
@@ -11,7 +13,7 @@ export let config = {};
 export let configure = function ({
                                      store,
                                      dispatch,
-                                     namespace = defaultComponentNamespace
+                                     namespace
                                  }) {
 
     config.store = store;
