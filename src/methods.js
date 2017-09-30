@@ -6,6 +6,10 @@ import {exposedSymbol, exposedGetterSetterSymbol} from "./identifiers";
  * @param root
  */
 export let exposeMethods = (internalInstance, root) => {
+
+    // FIXME: hack for react 16
+    if(!internalInstance) return;
+
     let methodsList = internalInstance[exposedSymbol] || [];
     for (let method of methodsList) {
         root[method] = internalInstance[method];

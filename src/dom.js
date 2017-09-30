@@ -22,6 +22,7 @@ const markTemp = (el) => {
  */
 export let getChildren = (el) => {
     let fragment = document.createDocumentFragment();
+    // TODO: text node
     while (el.children.length) {
         let node = el.children[0];
         markTemp(node);

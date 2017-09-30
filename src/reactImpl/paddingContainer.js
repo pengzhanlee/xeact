@@ -23,7 +23,6 @@ export default function (component) {
         childNodes.forEach((node) => {
             node._webComponentTemp = false;
         });
-
         ReactDOM.findDOMNode(component.refs.body).appendChild(children);
     }
 }

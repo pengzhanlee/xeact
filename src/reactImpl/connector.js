@@ -122,12 +122,11 @@ const connector = (elementName, ReactComponent) => {
          * 一般来说，您应将工作延迟至合适时机执行。
          */
         connectedCallback() {
-
             if (!this.canConnect()) return;
 
             this.setAttribute(attrFlag, this._id);
 
-            logger.info(`CE _${this._id}_ connected`);
+            logger.info(`CE _${this._id}_ (${elementName}) connected`);
 
             props = attrsToProps(this.attributes);
             props._id = this._id;
@@ -186,6 +185,8 @@ const connector = (elementName, ReactComponent) => {
             //
             // if(!this.connected) return;
 
+            if(this._webComponentTemp) return;
+
             if (
                 this.connected
             // &&
@@ -242,15 +243,21 @@ const connector = (elementName, ReactComponent) => {
          *
          * 内容控制
          *
+         * FIXME:
+         * 在 React 16 中，不能重写
+         * 初步推测与 ReactDOM.render 实现方式变更有关
+         * 具体原因需验证
+         *
          * @param args
          * @returns {*}
          */
-        appendChild(...args) {
-            let context = ReactDOM.findDOMNode(reactElement.refs.body);
-            if (context) {
-                return context.appendChild.call(context, ...args);
-            }
-        }
+        // appendChild(...args) {
+        //     let context = ReactDOM.findDOMNode(reactElement.refs.body);
+        //     if (context) {
+        //         console.log('appendchild to', context);
+        //         return context.appendChild.call(context, ...args);
+        //     }
+        // }
 
         /**
          *  -> React Component
@@ -272,6 +279,25 @@ const connector = (elementName, ReactComponent) => {
 
     }
 
+    /**
+     * 这里发生了什么
+     *
+     * 模式一:
+     *
+     *      DOM 后加载 （如 ufs）
+     *
+     *      不需要在 `DOMContentLoaded` 之后定义组件
+     *
+     *
+     * 模式二:
+     *
+     *      dom 随页面一同加载
+     *
+     *      需要 `DOMContentLoaded` 后定义组件
+     *      否则 外层标签解析时无法获取内层子元素
+     *
+     *
+     */
     document.addEventListener("DOMContentLoaded", function(event) {
         customElements.define(elementName, NewElement);
     });
