@@ -124,23 +124,28 @@ const connector = (elementName, ReactComponent) => {
         connectedCallback() {
             if (!this.canConnect()) return;
 
+            // for debug
             this.setAttribute(attrFlag, this._id);
 
             logger.info(`CE _${this._id}_ (${elementName}) connected`);
 
+            // props 解析
             props = attrsToProps(this.attributes);
+
+            // 子元素解析
+            props.children = dom.getChildren(this);
+
+            props.container = this;
             props._id = this._id;
 
-            props.children = dom.getChildren(this);
-            props.container = this;
-
+            // create react instance and render dom
             const reactElementPromise = creator(this, ReactComponent, props);
 
-            reactElementPromise.then((el) => {
-                // console.log('reactElement inst', reactElement);
-                reactElement = el;
-                console.log('reactElement sync', reactElement._id);
+            reactElementPromise.then((renderedInstance) => {
 
+                // react dom render
+
+                reactElement = renderedInstance;
 
                 this.connected = true;
                 connectedElements.add(this);
