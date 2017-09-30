@@ -134,11 +134,19 @@ const connector = (elementName, ReactComponent) => {
             props.children = dom.getChildren(this);
             props.container = this;
 
-            reactElement = creator(this, ReactComponent, props);
-            this.connected = true;
-            connectedElements.add(this);
+            const reactElementPromise = creator(this, ReactComponent, props);
 
-            exposeMethods(reactElement, this);
+            reactElementPromise.then((el) => {
+                // console.log('reactElement inst', reactElement);
+                reactElement = el;
+                console.log('reactElement sync', reactElement._id);
+
+
+                this.connected = true;
+                connectedElements.add(this);
+
+                exposeMethods(reactElement, this);
+            });
         }
 
         /**
@@ -251,13 +259,19 @@ const connector = (elementName, ReactComponent) => {
          * @param args
          * @returns {*}
          */
-        // appendChild(...args) {
-        //     let context = ReactDOM.findDOMNode(reactElement.refs.body);
-        //     if (context) {
-        //         console.log('appendchild to', context);
-        //         return context.appendChild.call(context, ...args);
-        //     }
-        // }
+        appendChild(...args) {
+            if(reactElement) {
+                let context = ReactDOM.findDOMNode(reactElement.refs.body);
+                if (context) {
+                    console.log('appendchild to', context);
+                    return context.appendChild.call(context, ...args);
+                }else {
+                    return super.appendChild(...args);
+                }
+            }else {
+                return super.appendChild(...args);
+            }
+        }
 
         /**
          *  -> React Component

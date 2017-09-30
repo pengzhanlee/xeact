@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom';
 import {config} from '../configure';
 
 /**
+ * React 16 中，render 不再一定是同步返回
+ * @param element
+ * @param root
+ */
+const renderDOM = (element, root) => new Promise((resolve) => {
+    ReactDOM.render(element, root, function () {
+        resolve(this);
+    });
+});
+
+/**
  * React Component 创建与更新
  *
  * 对于 react, 在同一容器中，创建与更新具有一致行为
@@ -12,7 +23,7 @@ import {config} from '../configure';
  * @param props
  * @returns {*}
  */
-const createAndUpdateReact = (root, Component, props = {}) => {
+const createAndUpdateReact = async (root, Component, props = {}) => {
     const {store = {}, dispatch} = config;
     props.store = props.store || store;
     props.dispatch = props.dispatch || dispatch;
@@ -20,7 +31,7 @@ const createAndUpdateReact = (root, Component, props = {}) => {
     const element = React.createElement(Component, props);
     root._internalInstance = element;
 
-    return ReactDOM.render(element, root);
+    return await renderDOM(element, root);
 };
 
 
