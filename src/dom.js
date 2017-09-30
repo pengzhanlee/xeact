@@ -1,14 +1,15 @@
 /**
  * 递归标记 _webComponentTemp
  * @param el
+ * @param reverse 反转标记
  */
-const markTemp = (el) => {
+export const markTemp = (el, reverse = false) => {
     if(el) {
-        el._webComponentTemp = true;
+        el._webComponentTemp = !reverse;
         if (el.children && el.children.length) {
             for(let i = 0, j = el.children.length; i < j; i++) {
                 let child = el.children[i];
-                markTemp(child);
+                markTemp(child, reverse);
             }
         }
     }
@@ -23,8 +24,8 @@ const markTemp = (el) => {
 export let getChildren = (el) => {
     let fragment = document.createDocumentFragment();
     // TODO: text node
-    while (el.children.length) {
-        let node = el.children[0];
+    while (el.childNodes.length) {
+        let node = el.childNodes[0];
         markTemp(node);
         fragment.appendChild(node);
     }

@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import {getDisplayName} from "../utils/common";
+import {markTemp} from "../dom";
 
 /**
  * 填充 children 到容器组件
@@ -21,7 +22,7 @@ export default function (component) {
         // console.log(children)
         let {childNodes} = children;
         childNodes.forEach((node) => {
-            node._webComponentTemp = false;
+            markTemp(node, true);
         });
         ReactDOM.findDOMNode(component.refs.body).appendChild(children);
     }
