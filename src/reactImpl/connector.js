@@ -174,6 +174,10 @@ const connector = (elementName, ReactComponent) => {
             }
         }
 
+        adoptedCallback() {
+            console.log('adoptedCallback');
+        }
+
         /**
          * 删除逻辑:
          * 1. 已连接
@@ -183,6 +187,12 @@ const connector = (elementName, ReactComponent) => {
          * doc:
          * 元素每次从 DOM 中移除时都会调用。
          * 用于运行清理代码（例如移除事件侦听器等）
+         *
+         * 移动元素也会进入此生命周期，如 document.body.appendChild( document.querySelector('x-button') )
+         * 与真正删除逻辑不同是，被操作元素是否依然在文档中存在
+         *  判断依据
+         *  a) parentNode 删除为 null
+         *  b) isConnected (Chrome) 删除为 false
          *
          *
          */
@@ -198,6 +208,8 @@ const connector = (elementName, ReactComponent) => {
             //
             // if(!this.connected) return;
 
+            if(this.parentNode) return;
+
             if(this._webComponentTemp) return;
 
             if (
@@ -212,6 +224,8 @@ const connector = (elementName, ReactComponent) => {
                 // for(let child of children) {
                 //     child.remove();
                 // }
+
+                logger.info(`CE _${this._id}_ will disconnected`);
 
                 ReactDOM.unmountComponentAtNode(this);
                 // this.connected = false;
