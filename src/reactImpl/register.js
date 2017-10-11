@@ -82,8 +82,20 @@ export function register(name, {
         }
 
 
+
+        // let observedAttributes = (WrappedComponent.observedAttributes = WrappedComponent.propTypes[observedSymbol] || []);
+
         // parse observedAttributes
-        let observedAttributes = (WrappedComponent.observedAttributes = WrappedComponent.propTypes[observedSymbol] || []);
+        let observedProps = [];
+        try {
+            /*
+            优先从 mui 中获取
+             */
+            observedProps = WrappedComponent.Naked.propTypes[observedSymbol] || [];
+        }catch(e) {
+            observedProps = WrappedComponent.propTypes[observedSymbol] || [];
+        }
+        let observedAttributes = (WrappedComponent.observedAttributes = observedProps);
 
         reactConnector(`${config.namespace}-${name}`, WebComponentsHOC);
 
