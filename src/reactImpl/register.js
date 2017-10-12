@@ -28,6 +28,8 @@ export function register(name, {
 
     return function ReactWebComponentFactory(WrappedComponent) {
 
+        WrappedComponent.propTypes = WrappedComponent.propTypes || {};
+
         const displayName = `${reactWebComponentDisplayName}(${getDisplayName(WrappedComponent)})`;
 
         class WebComponentsHOC extends WrappedComponent {
