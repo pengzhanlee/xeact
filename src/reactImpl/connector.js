@@ -7,6 +7,7 @@ import {creator, updater} from "./builder";
 import * as dom from "../dom";
 import {attrFlag, childrenAttrTag} from "../identifiers";
 import {suuid} from '../utils/common';
+import {registerTagDisplayMode} from "../styles";
 
 /**
  * React 连接器
@@ -326,6 +327,9 @@ const connector = (elementName, ReactComponent) => {
         }
 
     }
+
+    // 注册标签样式
+    registerTagDisplayMode(elementName, ReactComponent);
 
     /**
      * 这里发生了什么
