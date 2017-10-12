@@ -2,11 +2,7 @@ import reactConnector from './connector';
 import logger from '../utils/logger';
 import {getDisplayName} from "../utils/common";
 import paddingContainer from "./paddingContainer";
-import {
-    reactWebComponentDisplayName,
-    observedSymbol
-} from "../identifiers";
-import {config} from "../configure";
+import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
 
 
 /**
@@ -99,9 +95,9 @@ export function register(name, {
         }
         let observedAttributes = (WrappedComponent.observedAttributes = observedProps);
 
-        reactConnector(`${config.namespace}-${name}`, WebComponentsHOC);
+        reactConnector(`${componentNamespace}-${name}`, WebComponentsHOC);
 
-        logger.info(`register *${config.namespace}-${name}* with attributes ( ${observedAttributes.length ? observedAttributes.join(' | ') : 'null'} ) observed...`);
+        logger.info(`register *${componentNamespace}-${name}* with attributes ( ${observedAttributes.length ? observedAttributes.join(' | ') : 'null'} ) observed...`);
         return WebComponentsHOC;
     }
 
