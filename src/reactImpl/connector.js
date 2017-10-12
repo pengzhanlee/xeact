@@ -184,7 +184,10 @@ const connector = (elementName, ReactComponent) => {
                 let {key, prop} = attrToProp(name, newValue);
                 this._props[key] = prop;
 
-                this._reactElement = updater(this, ReactComponent, this._props);
+                updater(this, ReactComponent, this._props).then((renderedInstance) => {
+                    // update react element with new instance
+                    this._reactElement = renderedInstance;
+                });
             }
         }
 
