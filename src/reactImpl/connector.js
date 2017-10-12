@@ -41,9 +41,6 @@ const connectedElements = new Set();
 
 const connector = (elementName, ReactComponent) => {
 
-    let reactElement;
-    let props;
-
     class NewElement extends HTMLElement {
 
         static observedAttributes = ReactComponent.observedAttributes;
@@ -82,10 +79,25 @@ const connector = (elementName, ReactComponent) => {
          */
         _webComponentTemp = false;
 
+        /**
+         * id
+         * @type {string}
+         * @private
+         */
         _id = `${suuid()}`;
 
+        /**
+         * reactElement, 由 ReactDom 创建
+         */
+        _reactElement;
+
+        /**
+         * props
+         */
+        _props;
+
         get props() {
-            return props;
+            return this._props;
         }
 
         set props(props) {
@@ -130,27 +142,27 @@ const connector = (elementName, ReactComponent) => {
             logger.info(`CE _${this._id}_ (${elementName}) connected`);
 
             // props 解析
-            props = attrsToProps(this.attributes);
+            this._props = attrsToProps(this.attributes);
 
             // 子元素解析
-            props.children = dom.getChildren(this);
+            this._props.children = dom.getChildren(this);
 
-            props.container = this;
-            props._id = this._id;
+            this._props.container = this;
+            this._props._id = this._id;
 
             // create react instance and render dom
-            const reactElementPromise = creator(this, ReactComponent, props);
+            const reactElementPromise = creator(this, ReactComponent, this._props);
 
             reactElementPromise.then((renderedInstance) => {
 
                 // react dom render
 
-                reactElement = renderedInstance;
+                this._reactElement = renderedInstance;
 
                 this.connected = true;
                 connectedElements.add(this);
 
-                exposeMethods(reactElement, this);
+                exposeMethods(this._reactElement, this);
             });
         }
 
@@ -168,9 +180,9 @@ const connector = (elementName, ReactComponent) => {
                 logger.debug(`CE _${this._id}_ attributeChanged`, name, oldValue, '->', newValue);
 
                 let {key, prop} = attrToProp(name, newValue);
-                props[key] = prop;
+                this._props[key] = prop;
 
-                reactElement = updater(this, ReactComponent, props);
+                this._reactElement = updater(this, ReactComponent, this._props);
             }
         }
 
@@ -245,7 +257,9 @@ const connector = (elementName, ReactComponent) => {
          * @returns {*}
          */
         set textContent(value) {
-            let context = ReactDOM.findDOMNode(reactElement.refs.body);
+            let contextRoot = ReactDOM.findDOMNode(this._reactElement);
+            let context = contextRoot && contextRoot.querySelector('[x-ref]');
+
             if (context) {
                 return context.textContent = value;
             }
@@ -259,7 +273,8 @@ const connector = (elementName, ReactComponent) => {
          * @param value
          */
         set innerHTML(value) {
-            let context = ReactDOM.findDOMNode(reactElement.refs.body);
+            let contextRoot = ReactDOM.findDOMNode(this._reactElement);
+            let context = contextRoot && contextRoot.querySelector('[x-ref]');
             if (context) {
                 context.innerHTML = value;
             }
@@ -279,8 +294,9 @@ const connector = (elementName, ReactComponent) => {
          * @returns {*}
          */
         appendChild(...args) {
-            if(reactElement) {
-                let context = ReactDOM.findDOMNode(reactElement.refs.body);
+            if(this._reactElement) {
+                let contextRoot = ReactDOM.findDOMNode(this._reactElement);
+                let context = contextRoot && contextRoot.querySelector('[x-ref]');
                 if (context) {
                     return context.appendChild.call(context, ...args);
                 }else {
@@ -295,8 +311,8 @@ const connector = (elementName, ReactComponent) => {
          *  -> React Component
          */
         setState() {
-            if (reactElement) {
-                reactElement.setState.apply(reactElement, arguments);
+            if (this._reactElement) {
+                this._reactElement.setState.apply(this._reactElement, arguments);
             }
         }
 
@@ -304,8 +320,8 @@ const connector = (elementName, ReactComponent) => {
          *  -> React Component
          */
         forceUpdate() {
-            if (reactElement) {
-                reactElement.forceUpdate();
+            if (this._reactElement) {
+                this._reactElement.forceUpdate();
             }
         }
 
