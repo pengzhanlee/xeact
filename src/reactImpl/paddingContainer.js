@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import {getDisplayName} from "../utils/common";
 import {markTemp} from "../dom";
+import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 
 /**
  * 填充 children 到容器组件
@@ -14,11 +15,11 @@ export default function (component) {
     // let body = ReactDOM.findDOMNode(component.refs.body);
 
     let node = ReactDOM.findDOMNode(component);
-    let body = node.querySelector('[x-ref=body]') || ( node.getAttribute('x-ref') === 'body' ? node : null );
+    let body = node.querySelector(`[${childrenAttrTag}=${childrenAttrValue}]`) || ( node.getAttribute(childrenAttrTag) === childrenAttrValue ? node : null );
 
     if (children) {
         if (!body) {
-            console.error(`'body' x-ref not found in a container Component, please check [${getDisplayName(component.constructor.getWrappedComponent())}]`);
+            console.error(`'${childrenAttrValue}' ${childrenAttrTag} not found in a container Component, please check [${getDisplayName(component.constructor.getWrappedComponent())}]`);
             return;
         }
 

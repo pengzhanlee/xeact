@@ -5,7 +5,7 @@ import logger from '../utils/logger';
 import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
 import * as dom from "../dom";
-import {attrFlag} from "../identifiers";
+import {attrFlag, childrenAttrTag} from "../identifiers";
 import {suuid} from '../utils/common';
 
 /**
@@ -258,7 +258,7 @@ const connector = (elementName, ReactComponent) => {
          */
         set textContent(value) {
             let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-            let context = contextRoot && contextRoot.querySelector('[x-ref]');
+            let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
 
             if (context) {
                 return context.textContent = value;
@@ -274,7 +274,7 @@ const connector = (elementName, ReactComponent) => {
          */
         set innerHTML(value) {
             let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-            let context = contextRoot && contextRoot.querySelector('[x-ref]');
+            let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
             if (context) {
                 context.innerHTML = value;
             }
@@ -296,7 +296,7 @@ const connector = (elementName, ReactComponent) => {
         appendChild(...args) {
             if(this._reactElement) {
                 let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-                let context = contextRoot && contextRoot.querySelector('[x-ref]');
+                let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
                 if (context) {
                     return context.appendChild.call(context, ...args);
                 }else {

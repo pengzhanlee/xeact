@@ -32,3 +32,15 @@ export const reactWebComponentDisplayName = 'CE';
  * @type {string}
  */
 export const attrFlag = 'xeact';
+
+/**
+ * 容器类组件子组件位置属性标记符
+ * @type {string}
+ */
+export const childrenAttrTag = 'x-ref';
+
+/**
+ * 容器类组件子组件位置属性标记值
+ * @type {string}
+ */
+export const childrenAttrValue = 'body';
