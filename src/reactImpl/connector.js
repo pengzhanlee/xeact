@@ -5,9 +5,10 @@ import logger from '../utils/logger';
 import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
 import * as dom from "../dom";
-import {attrFlag, childrenAttrTag} from "../identifiers";
+import {attrFlag, childrenAttrTag, childrenAttrValue} from "../identifiers";
 import {suuid} from '../utils/common';
 import {registerTagDisplayMode} from "../styles";
+import {getOperableContextRoot} from "../dom";
 
 /**
  * React 连接器
@@ -258,8 +259,8 @@ const connector = (elementName, ReactComponent) => {
          * @returns {*}
          */
         set textContent(value) {
-            let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-            let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
+
+            let context = getOperableContextRoot(this._reactElement);
 
             if (context) {
                 return context.textContent = value;
@@ -274,8 +275,9 @@ const connector = (elementName, ReactComponent) => {
          * @param value
          */
         set innerHTML(value) {
-            let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-            let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
+
+            let context = getOperableContextRoot(this._reactElement);
+
             if (context) {
                 context.innerHTML = value;
             }
@@ -296,8 +298,7 @@ const connector = (elementName, ReactComponent) => {
          */
         appendChild(...args) {
             if(this._reactElement) {
-                let contextRoot = ReactDOM.findDOMNode(this._reactElement);
-                let context = contextRoot && contextRoot.querySelector(`[${childrenAttrTag}]`);
+                let context = getOperableContextRoot(this._reactElement);
                 if (context) {
                     return context.appendChild.call(context, ...args);
                 }else {

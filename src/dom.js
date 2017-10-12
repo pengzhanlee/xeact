@@ -3,6 +3,9 @@
  * @param el
  * @param reverse 反转标记
  */
+import * as ReactDOM from "react-dom";
+import {childrenAttrTag, childrenAttrValue} from "./identifiers";
+
 export const markTemp = (el, reverse = false) => {
     if(el) {
         el._webComponentTemp = !reverse;
@@ -31,4 +34,25 @@ export let getChildren = (el) => {
     }
 
     return fragment;
+};
+
+/**
+ * 获取 CE 的容器
+ * @param reactElement
+ * @returns {*}
+ */
+export let getOperableContextRoot = (reactElement) => {
+    let context = ReactDOM.findDOMNode(reactElement);
+    const childrenAttr = context.getAttribute(childrenAttrTag);
+    if(childrenAttr !== childrenAttrValue) {
+
+        // reactElement 的容器在子元素 或 reactElement 不是容器类组件
+        // 若 reactElement 不是容器类组件，则 querySelector 的结果为 null
+        // 若 reactElement 存在多个嵌套后代容器类组件，则 querySelector 返回子代
+        context = context.querySelector(`[${childrenAttrTag}=${childrenAttrValue}]`);
+    } else {
+        // reactElement 是容器本身
+    }
+
+    return context;
 };
