@@ -1,6 +1,6 @@
 import reactConnector from './connector';
 import logger from '../utils/logger';
-import {getDisplayName} from "../utils/common";
+import {findPropTypesFromInHOC, getDisplayName} from "../utils/react";
 import paddingContainer from "./paddingContainer";
 import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
 
@@ -84,16 +84,22 @@ export function register(name, {
         // let observedAttributes = (WrappedComponent.observedAttributes = WrappedComponent.propTypes[observedSymbol] || []);
 
         // parse observedAttributes
-        let observedProps = [];
-        try {
-            /*
-            优先从 mui 中获取
-             */
-            observedProps = WrappedComponent.Naked.propTypes[observedSymbol] || [];
-        }catch(e) {
-            observedProps = WrappedComponent.propTypes[observedSymbol] || [];
-        }
-        let observedAttributes = (WrappedComponent.observedAttributes = observedProps);
+
+        let ComponentPropTypes = findPropTypesFromInHOC(WrappedComponent);
+
+        let observedAttributes = (WrappedComponent.observedAttributes = ComponentPropTypes[observedSymbol] || []);
+
+        // let observedProps = [];
+        // try {
+        //     /*
+        //     优先从 mui 中获取
+        //      */
+        //     debugger;
+        //     observedProps = WrappedComponent.Naked.propTypes[observedSymbol] || [];
+        // }catch(e) {
+        //     observedProps = WrappedComponent.propTypes[observedSymbol] || [];
+        // }
+        // let observedAttributes = (WrappedComponent.observedAttributes = observedProps);
 
         reactConnector(`${componentNamespace}-${name}`, WebComponentsHOC);
 

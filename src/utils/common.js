@@ -17,9 +17,3 @@ sguid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 export function suuid() {
     return sguid.generate();
 }
-
-export function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName ||
-        WrappedComponent.name ||
-        'Component';
-}

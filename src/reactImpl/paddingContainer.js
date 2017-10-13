@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {getDisplayName} from "../utils/common";
+import {getDisplayName} from "../utils/react";
 import {markTemp} from "../dom";
 import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 
@@ -15,6 +15,12 @@ export default function (component) {
     // let body = ReactDOM.findDOMNode(component.refs.body);
 
     let node = ReactDOM.findDOMNode(component);
+
+    // TODO:
+    // 可能存在 render 中 return null 的组件
+    // 目前不可恢复渲染
+    // if(!node) return;
+
     let body = node.querySelector(`[${childrenAttrTag}=${childrenAttrValue}]`) || ( node.getAttribute(childrenAttrTag) === childrenAttrValue ? node : null );
 
     if (children) {
