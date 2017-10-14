@@ -71,6 +71,9 @@ export function register(name, {
                 super.componentDidUpdate && super.componentDidUpdate(...args);
             }
 
+            componentDidCatch(errorString, errorInfo) {
+                logger.error(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - error: ${errorString} ${errorInfo}`);
+            }
 
             render() {
                 logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - render`);

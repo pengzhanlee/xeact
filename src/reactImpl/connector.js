@@ -139,7 +139,7 @@ const connector = (elementName, ReactComponent) => {
             if (!this.canConnect()) return;
 
             // for debug
-            // this.setAttribute(attrFlag, this._id);
+            this.setAttribute(attrFlag, this._id);
 
             logger.info(`CE _${this._id}_ (${elementName}) connected`);
 
