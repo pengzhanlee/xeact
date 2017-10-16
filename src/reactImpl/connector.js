@@ -39,8 +39,6 @@ import {getOperableContextRoot} from "../dom";
  * @param ReactComponent
  */
 
-const connectedElements = new Set();
-
 const connector = (elementName, ReactComponent) => {
 
     class NewElement extends HTMLElement {
@@ -162,7 +160,6 @@ const connector = (elementName, ReactComponent) => {
                 this._reactElement = renderedInstance;
 
                 this.connected = true;
-                connectedElements.add(this);
 
                 exposeMethods(this._reactElement, this);
             });
@@ -267,6 +264,21 @@ const connector = (elementName, ReactComponent) => {
 
             if (context) {
                 return context.textContent = value;
+            }
+        }
+
+        /**
+         * @override
+         * 内容控制
+         * 针对 native innerHTMl / jQuery html / empty 等方法
+         *
+         */
+        get innerHTML() {
+
+            let context = getOperableContextRoot(this._reactElement);
+
+            if (context) {
+                return context.innerHTML;
             }
         }
 
