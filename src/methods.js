@@ -2,6 +2,9 @@ import {exposedSymbol, exposedGetterSetterSymbol} from "./identifiers";
 
 export const EXPOSED_METHODS_ID_KEY = `__EXPOSED_METHODS_KEY`;
 
+// 避免重复的记录
+const recordedInstances = new WeakSet();
+
 // 记录 exposeId 与 instance 关系
 // exposeId: instance
 const exposeIdToInstanceMap = new Map();
@@ -9,6 +12,9 @@ const exposeIdToInstanceMap = new Map();
 // 记录 instance Id 与 instance 关系
 // instanceId: instance
 const idToInstanceMap = new Map();
+
+// method 运行上下文
+const idToContextMap = new Map();
 
 let exposeId = 0;
 
@@ -29,27 +35,35 @@ export let exposeMethods = (internalInstance, root) => {
 
     const id = root._id;
 
-    internalInstance = idToInstanceMap.get(id);
+    const symbolInternalInstance = idToInstanceMap.get(id);
 
-    if(!internalInstance) {
+    if(!symbolInternalInstance) {
         return;
     }
+
+    const context = idToContextMap.get(id);
 
     // clear instance in map
     idToInstanceMap.delete(id);
 
     // 映射普通方法到 dom
-    let methodsList = internalInstance[exposedSymbol] || [];
+    let methodsList = symbolInternalInstance[exposedSymbol] || [];
     for (let method of methodsList) {
-        root[method] = internalInstance[method];
+        // 绑定上下文
+        root[method] = context::symbolInternalInstance[method];
     }
 
     // 映射 get / set 到 dom
-    let getterSetterList = internalInstance[exposedGetterSetterSymbol] || [];
+    let getterSetterList = symbolInternalInstance[exposedGetterSetterSymbol] || [];
     for (let name of getterSetterList) {
+
+        const get = symbolInternalInstance.__lookupGetter__(name);
+        const set = symbolInternalInstance.__lookupSetter__(name);
+
+        // 绑定上下文
         Object.defineProperty(root, name, {
-            get: internalInstance.__lookupGetter__(name),
-            set: internalInstance.__lookupSetter__(name),
+            get: get ? get.bind(context) : get,
+            set: set ? set.bind(context) : set,
         });
     }
 
@@ -60,8 +74,17 @@ let recordBySymbol = (instance, name, symbol) => {
     instance[symbol] = instance[symbol] || new Set();
     instance[symbol] = instance[symbol].add(name);
 
+    // 一次记录即可找到索引
+    if(recordedInstances.has(instance)) {
+        return;
+    }
+
+    recordedInstances.add(instance);
+
+    // exposeId 自增后, 添加 exposeId 与 instance 关联
     exposeIdToInstanceMap.set(++exposeId, instance);
 
+    // 记录 exposeId 到 instance
     instance[EXPOSED_METHODS_ID_KEY] = exposeId;
 };
 
@@ -102,13 +125,15 @@ export const getExposedInstance = (exposedId) => {
  * 添加 instance id 与 instance 的关联关系
  * @param id
  * @param instance
+ * @param context
  * @param exposedId
- * @returns {Map.<K, V>}
  */
-export const addIdToInstanceConnection = (id, instance, exposedId) => {
+export const addIdToInstanceConnection = (id, instance, context, exposedId) => {
     if(exposedId) {
         exposeIdToInstanceMap.delete(exposedId);
     }
-    return idToInstanceMap.set(id, instance);
+
+    idToContextMap.set(id, context);
+    idToInstanceMap.set(id, instance);
 
 };
