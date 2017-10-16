@@ -1,19 +1,24 @@
 import React from 'react';
-import {addIdToInstanceConnection, EXPOSED_METHODS_ID_KEY, getExposedInstance} from "../methods";
+import {addIdToInstanceRelation} from "../methods";
 
 /**
- * 将 instanceId 与 暴露方法的实例关联
+ * 方法暴露
+ * 将 instanceId (xeactId) 与 internal instance 关联
  */
 function methodExpose() {
-    const exposedId = this[EXPOSED_METHODS_ID_KEY];
+    // const exposedId = this[EXPOSED_METHODS_ID_KEY];
+    //
+    // const exposedInstance = getExposedInstance(exposedId);
+    //
+    // if(exposedInstance) {
+    //     const {_id: id} = this.props;
+    //
+    //     addIdToInstanceConnection(id, exposedInstance, this, exposedId);
+    // }
 
-    const exposedInstance = getExposedInstance(exposedId);
+    const {_id: id} = this.props;
 
-    if(exposedInstance) {
-        const {_id: id} = this.props;
-
-        addIdToInstanceConnection(id, exposedInstance, this, exposedId);
-    }
+    addIdToInstanceRelation(id, this);
 }
 
 export class PureComponent extends React.PureComponent {
