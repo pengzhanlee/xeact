@@ -176,6 +176,7 @@ const connector = (elementName, ReactComponent) => {
          */
         attributeChangedCallback(name, oldValue, newValue) {
             if (this.connected) {
+                if(oldValue === newValue) return;
                 logger.debug(`CE _${this._id}_ attributeChanged`, name, oldValue, '->', newValue);
 
                 let {key, prop} = attrToProp(name, newValue);
