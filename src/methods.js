@@ -34,9 +34,9 @@ export const addIdToInstanceRelation = (instanceId, instance) => {
 /**
  * 暴露组件内部方法到 dom 方法
  *
- * 每个暴露方法的实例关联一个 exposeId
- * 使用 exposeIdToInstanceMap 记录 exposeId 与 内层 react instance 的关系
- * 使用 Component 关联 exposeId 与 instanceId， 从而穿透多个 HOC
+ * 根据 id 获取 instance
+ * instance 中储存方法列表
+ * dom 直接指向方法即可
  *
  * @param internalInstance 内部组件
  * @param root
@@ -49,6 +49,7 @@ export let exposeMethods = (internalInstance, root) => {
     const id = root._id;
     internalInstance = componentIdToInstance.get(id);
 
+    // 可能有组件未继承自 Component / PureComponent
     if(!internalInstance) return;
 
     // const symbolInternalInstance = idToInstanceMap.get(id);
@@ -65,7 +66,6 @@ export let exposeMethods = (internalInstance, root) => {
     // 映射普通方法到 dom
     let methodsList = internalInstance[exposedSymbol] || [];
     for (let method of methodsList) {
-        // 绑定上下文
         root[method] = internalInstance[method];
     }
 
@@ -76,7 +76,6 @@ export let exposeMethods = (internalInstance, root) => {
         const get = internalInstance.__lookupGetter__(name);
         const set = internalInstance.__lookupSetter__(name);
 
-        // 绑定上下文
         Object.defineProperty(root, name, {
             // get: get ? get.bind(context) : get,
             // set: set ? set.bind(context) : set,
