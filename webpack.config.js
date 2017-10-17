@@ -5,13 +5,14 @@ var production = process.env.NODE_ENV === 'production';
 module.exports = {
     entry: {
         'xeact': './src/index.js',
+        'env': './src/ceEnv.js',
     },
 
     output: {
         path: path.resolve(__dirname, 'dist' ),
         filename: production ? '[name].min.js' : '[name].js',
-        library: 'xeact',
-        libraryTarget: 'umd'
+        // library: 'xeact',
+        // libraryTarget: 'umd'
     },
     devtool: production ? 'source-map' : '',
     module: {
@@ -48,7 +49,8 @@ module.exports = {
     ],
     plugins: production ? [
         new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
+            exclude: ['env'],
+            compress: { warnings: false },
         })
     ] : []
 };
