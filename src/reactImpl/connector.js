@@ -9,6 +9,7 @@ import {attrFlag, childrenAttrTag, childrenAttrValue} from "../identifiers";
 import {suuid} from '../utils/common';
 import {registerTagDisplayMode} from "../styles";
 import {getOperableContextRoot} from "../dom";
+import {findWrappedComponentFromHOC, getDisplayName} from "../utils/react";
 
 /**
  * React 连接器
@@ -38,6 +39,8 @@ import {getOperableContextRoot} from "../dom";
  * @param elementName
  * @param ReactComponent
  */
+
+const definedElements = new Set();
 
 const connector = (elementName, ReactComponent) => {
 
@@ -176,7 +179,7 @@ const connector = (elementName, ReactComponent) => {
          */
         attributeChangedCallback(name, oldValue, newValue) {
             if (this.connected) {
-                if(oldValue === newValue) return;
+                if (oldValue === newValue) return;
                 logger.debug(`CE _${this._id}_ attributeChanged`, name, oldValue, '->', newValue);
 
                 let {key, prop} = attrToProp(name, newValue);
@@ -223,9 +226,9 @@ const connector = (elementName, ReactComponent) => {
             //
             // if(!this.connected) return;
 
-            if(this.parentNode) return;
+            if (this.parentNode) return;
 
-            if(this._webComponentTemp) return;
+            if (this._webComponentTemp) return;
 
             if (
                 this.connected
@@ -313,14 +316,14 @@ const connector = (elementName, ReactComponent) => {
          * @returns {*}
          */
         appendChild(...args) {
-            if(this._reactElement) {
+            if (this._reactElement) {
                 let context = getOperableContextRoot(this._reactElement);
                 if (context) {
                     return context.appendChild.call(context, ...args);
-                }else {
+                } else {
                     return super.appendChild(...args);
                 }
-            }else {
+            } else {
                 return super.appendChild(...args);
             }
         }
@@ -367,8 +370,16 @@ const connector = (elementName, ReactComponent) => {
      *
      *
      */
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        if (definedElements.has(elementName)) {
+            throw new Error(`注册失败: 重复的标签名 ${elementName} 声明 在组件 ${getDisplayName(findWrappedComponentFromHOC(ReactComponent))}`);
+        }
+
+        definedElements.add(elementName);
+
         customElements.define(elementName, NewElement);
+
     });
 };
 

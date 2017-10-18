@@ -1,19 +1,38 @@
+
 export function getDisplayName(WrappedComponent) {
+
+    if(!WrappedComponent) return null;
+
     return WrappedComponent.displayName ||
         WrappedComponent.name ||
         'Component';
 }
 
-
-export function findPropTypesFromInHOC(Component) {
+/**
+ * 查找被包裹的组件
+ * @param Component
+ * @returns {*}
+ */
+export function findWrappedComponentFromHOC(Component) {
 
     if(Component.Naked) {
-        return findPropTypesFromInHOC(Component.Naked);
+        return findWrappedComponentFromHOC(Component.Naked);
     } else if(Component.WrappedComponent) {
-        return findPropTypesFromInHOC(Component.WrappedComponent);
-    } else if(Component.propTypes) {
-        return Component.propTypes;
+        return findWrappedComponentFromHOC(Component.WrappedComponent);
     }
 
-    return {};
+    return Component;
+}
+
+/**
+ * 查找 HOC 最内层组件的 propTypes
+ * @param Component
+ * @returns {*|{}}
+ */
+export function findPropTypesFromHOC(Component) {
+
+    Component = findWrappedComponentFromHOC(Component);
+
+    return Component.propTypes || {};
+
 }

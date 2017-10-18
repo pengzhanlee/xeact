@@ -1,6 +1,6 @@
 import reactConnector from './connector';
 import logger from '../utils/logger';
-import {findPropTypesFromInHOC, getDisplayName} from "../utils/react";
+import {findPropTypesFromHOC, getDisplayName} from "../utils/react";
 import paddingContainer from "./paddingContainer";
 import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
 
@@ -88,7 +88,7 @@ export function register(name, {
 
         // parse observedAttributes
 
-        let ComponentPropTypes = findPropTypesFromInHOC(WrappedComponent);
+        let ComponentPropTypes = findPropTypesFromHOC(WrappedComponent);
 
         let observedAttributes = (WrappedComponent.observedAttributes = ComponentPropTypes[observedSymbol] || []);
 
