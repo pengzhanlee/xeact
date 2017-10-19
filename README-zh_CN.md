@@ -101,7 +101,7 @@ define a custom element and connect it to React component.
 
 ### observed
 
-    observe an dom attribute change
+    observe an dom attribute change.
 
     ```js
     import {observed} from 'xeact';
@@ -162,7 +162,7 @@ define a custom element and connect it to React component.
     import {dispatchEvent} from 'xeact';
 
     method(...args) {
-        dispatch(this, 'catch', {
+        dispatch(this, 'something', {
             data: 'data'
         });
     }
@@ -171,9 +171,7 @@ define a custom element and connect it to React component.
     ```xml
     <x-box></x-box>
     <script>
-        document.querySelector('x-box').addEventListener('catch', function(e){
-            e.detail.data === 'data';   // true
-        });
+        document.querySelector('x-box').method(arg);
     </script>
     ```
 
