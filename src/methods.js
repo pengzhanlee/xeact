@@ -66,7 +66,7 @@ export let exposeMethods = (internalInstance, root) => {
     // 映射普通方法到 dom
     let methodsList = internalInstance[exposedSymbol] || [];
     for (let method of methodsList) {
-        root[method] = internalInstance[method];
+        root[method] = internalInstance[method].bind(internalInstance);
     }
 
     // 映射 get / set 到 dom
@@ -77,10 +77,10 @@ export let exposeMethods = (internalInstance, root) => {
         const set = internalInstance.__lookupSetter__(name);
 
         Object.defineProperty(root, name, {
-            // get: get ? get.bind(context) : get,
-            // set: set ? set.bind(context) : set,
-            get,
-            set
+            get: get ? get.bind(internalInstance) : get,
+            set: set ? set.bind(internalInstance) : set,
+            // get,
+            // set
         });
     }
 

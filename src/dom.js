@@ -43,6 +43,9 @@ export let getChildren = (el) => {
  */
 export let getOperableContextRoot = (reactElement) => {
     let context = ReactDOM.findDOMNode(reactElement);
+
+    if(!context) return null;
+
     const childrenAttr = context.getAttribute(childrenAttrTag);
     if(childrenAttr !== childrenAttrValue) {
 
