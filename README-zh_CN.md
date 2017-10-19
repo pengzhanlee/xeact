@@ -101,7 +101,7 @@ define a custom element and connect it to React component.
 
 ### observed
 
-    observe an dom attribute change.
+observe an dom attribute change
 
     ```js
     import {observed} from 'xeact';
@@ -113,7 +113,7 @@ define a custom element and connect it to React component.
     ```
 
     ```xml
-    <x-box></x-box>
+    <x-box>...</x-box>
     <script>
         document.querySelector('x-box').setAttribute('header', 'new header');
     </script>
@@ -123,7 +123,7 @@ define a custom element and connect it to React component.
 
 ### exposed
 
-    expose react method to dom api.
+expose react method to dom api.
 
     ```js
     import {exposed} from 'xeact';
@@ -135,7 +135,7 @@ define a custom element and connect it to React component.
     ```
 
     ```xml
-    <x-box></x-box>
+    <x-box>...</x-box>
     <script>
         document.querySelector('x-box').method(arg);
     </script>
@@ -144,7 +144,7 @@ define a custom element and connect it to React component.
 
 ### dispatchEvent(context, name, eventData)
 
-    dispatch an event from react component
+dispatch an event from react component
 
 - **context** `object`
 
@@ -162,16 +162,18 @@ define a custom element and connect it to React component.
     import {dispatchEvent} from 'xeact';
 
     method(...args) {
-        dispatch(this, 'something', {
+        dispatch(this, 'catch', {
             data: 'data'
         });
     }
     ```
 
     ```xml
-    <x-box></x-box>
+    <x-box>...</x-box>
     <script>
-        document.querySelector('x-box').method(arg);
+        document.querySelector('x-box').addEventListener('catch', function(e){
+            e.detail.data === 'data';   // true
+        });
     </script>
     ```
 
