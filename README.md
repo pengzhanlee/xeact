@@ -103,44 +103,44 @@ define a custom element and connect it to React component.
 
 observe an dom attribute change
 
-    ```js
-    import {observed} from 'xeact';
+```js
+import {observed} from 'xeact';
 
-    static propTypes = {
-        @observed
-        header: PropTypes.string,
-    };
-    ```
+static propTypes = {
+    @observed
+    header: PropTypes.string,
+};
+```
 
-    ```xml
-    <x-box>...</x-box>
-    <script>
-        document.querySelector('x-box').setAttribute('header', 'new header');
-    </script>
-    ```
+```xml
+<x-box>...</x-box>
+<script>
+    document.querySelector('x-box').setAttribute('header', 'new header');
+</script>
+```
 
-    the box component will receive prop header: 'new header'
+the box component will receive prop header: 'new header'
+
 
 ### exposed
 
 expose react method to dom api.
 
-    ```js
-    import {exposed} from 'xeact';
+```js
+import {exposed} from 'xeact';
 
-    @exposed
-    method(...args) {
-        ...
-    }
-    ```
+@exposed
+method(...args) {
+    ...
+}
+```
 
-    ```xml
-    <x-box>...</x-box>
-    <script>
-        document.querySelector('x-box').method(arg);
-    </script>
-    ```
-
+```xml
+<x-box>...</x-box>
+<script>
+    document.querySelector('x-box').method(arg);
+</script>
+```
 
 ### dispatchEvent(context, name, eventData)
 
