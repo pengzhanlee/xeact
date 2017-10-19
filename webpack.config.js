@@ -14,7 +14,7 @@ module.exports = {
         // library: 'xeact',
         // libraryTarget: 'umd'
     },
-    devtool: production ? 'source-map' : '',
+    devtool: production ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
     module: {
         loaders: [
             {
