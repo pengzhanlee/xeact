@@ -15,7 +15,7 @@ npm install xeact --save
 
 ## Quick Start
 
-1. register component
+1. Register component
 
     ```js
     import xeact, {observed, exposed, dispatchEvent, Component} from "xeact";
@@ -59,19 +59,19 @@ npm install xeact --save
     }
     ```
 
-2. use the registered component as a Custom Element in HTML
+2. Use the registered component as a Custom Element in HTML
     ```xml
     <x-box header="Hello">
         <p>World</p>
     </x-box>
     ```
 
-3. import Custom Elements v1 polyfills
+3. Import Custom Elements v1 polyfills
     ```xml
     <script src="/xeact/dist/env.min.js"></script>
     ```
 
-4. done
+4. Done
 
     ![](https://raw.githubusercontent.com/pengzhanlee/xeact/master/docs/image/quickStart.png)
 
@@ -80,83 +80,118 @@ npm install xeact --save
 
 ### xeact(name, options)
 
-define a custom element and connect it to React component.
+Define a custom element and connect it to React component.
 
 - **tagName** `string`
 
-    define tag name of the element.
+    Define tag name of an element.
+
+    There are a few notices on this argument:
+
+    - It can only contain lowercase letter `a-z` and `-`.
+
+    - A `x-` prefix will be added to tag name. For example 'box' means 'x-box' will be defined as a custom element name.
 
 - **options.isContainer** `boolean`
 
-    the custom element can own childNodes or not.
+    The custom element can own childNodes or not.
+
+
+    An example of non-container component :
 
     ```js
     import xeact from 'xeact';
 
-    @xeact('tag')
-    export default class Box extends Component {
+    @xeact('button')
+    export default class Button extends Component {
+
         ...
+
+        render() {
+            return <span>Button</span>
+        }
     }
     ```
+
+    An example container component:
+
+    ```js
+    import xeact from 'xeact';
+
+    @xeact('box')
+    export default class Box extends Component {
+
+        ...
+
+        render() {
+            return <div>
+                <div className="box-header">Header</header>
+                <div x-ref="body"></body>
+            </div>
+        }
+    }
+    ```
+
+
 
 ### observed
 
-observe an dom attribute change
+Observe an dom attribute change.
 
-    ```js
-    import {observed} from 'xeact';
+```js
+import {observed} from 'xeact';
 
-    static propTypes = {
-        @observed
-        header: PropTypes.string,
-    };
-    ```
+static propTypes = {
+    @observed
+    header: PropTypes.string,
+};
+```
 
-    ```xml
-    <x-box>...</x-box>
-    <script>
-        document.querySelector('x-box').setAttribute('header', 'new header');
-    </script>
-    ```
+```xml
+<x-box>...</x-box>
+<script>
+    document.querySelector('x-box').setAttribute('header', 'new header');
+</script>
+```
 
-    the box component will receive prop header: 'new header'
+The box component header prop will receive new value : 'new header'.
+
 
 ### exposed
 
-expose react method to dom api.
+Expose react method to dom api.
 
-    ```js
-    import {exposed} from 'xeact';
+```js
+import {exposed} from 'xeact';
 
-    @exposed
-    method(...args) {
-        ...
-    }
-    ```
+@exposed
+method(...args) {
+    ...
+}
+```
 
-    ```xml
-    <x-box>...</x-box>
-    <script>
-        document.querySelector('x-box').method(arg);
-    </script>
-    ```
-
+```xml
+<x-box>...</x-box>
+<script>
+    document.querySelector('x-box').method(arg);
+</script>
+```
 
 ### dispatchEvent(context, name, eventData)
 
-dispatch an event from react component
+Dispatch an event from react component.
 
 - **context** `object`
 
-    always point to the component instance
+    Always point to the component instance.
 
 - **name** `string`
 
-    event name
+    Event name.
 
 - **eventData** `object`
 
-    An object containing data that will be passed to the event handler
+    An object containing data that will be passed to the event handler.
 
     ```js
     import {dispatchEvent} from 'xeact';
