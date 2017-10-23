@@ -1,4 +1,6 @@
 
+import {findWrappedComponentFromHOC} from "./utils/react";
+
 const styleEl = document.createElement('style');
 styleEl.setAttribute('type', 'text/css');
 document.head.appendChild(styleEl);
@@ -9,6 +11,6 @@ document.head.appendChild(styleEl);
  * @param ReactComponent
  */
 export const registerTagDisplayMode = (elementName, ReactComponent) => {
-    let displayMode = ReactComponent.DISPLAY_MODE || 'block';
+    let displayMode = findWrappedComponentFromHOC(ReactComponent).DISPLAY_MODE || 'block';
     styleEl.innerHTML += `${elementName}{display:${displayMode};}`
 };
