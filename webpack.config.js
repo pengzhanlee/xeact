@@ -11,8 +11,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist' ),
         filename: production ? '[name].min.js' : '[name].js',
-        // library: 'xeact',
-        // libraryTarget: 'umd'
+        library: 'xeact',
+        libraryTarget: 'umd'
     },
     devtool: production ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
     module: {
