@@ -49,7 +49,7 @@ export function register(name, {
 
                 // 容器类组件装载
                 if (isContainer) {
-                    paddingContainer(this);
+                    this.__HasAppendChild = paddingContainer(this);
                 }
 
                 moveStyles(this);
@@ -71,6 +71,12 @@ export function register(name, {
 
             componentDidUpdate(...args) {
                 logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentDidUpdate`);
+
+                // 更新后，对于失败的 paddingContainer 进行重试
+                if (isContainer && !this.__HasAppendChild) {
+                    this.__HasAppendChild = paddingContainer(this);
+                }
+
                 super.componentDidUpdate && super.componentDidUpdate(...args);
             }
 
