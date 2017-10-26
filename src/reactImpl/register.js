@@ -3,6 +3,7 @@ import logger from '../utils/logger';
 import {findPropTypesFromHOC, getDisplayName} from "../utils/react";
 import paddingContainer from "./paddingContainer";
 import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
+import {moveStyles} from "../styles";
 
 
 /**
@@ -50,6 +51,8 @@ export function register(name, {
                 if (isContainer) {
                     paddingContainer(this);
                 }
+
+                moveStyles(this);
 
                 super.componentDidMount && super.componentDidMount(...args);
 
