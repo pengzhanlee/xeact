@@ -59,16 +59,19 @@ npm install xeact --save
     }
     ```
 
-2. Use the registered component as a Custom Element in HTML
+
+2. Import Custom Elements v1 polyfills
+
+    ```xml
+    <script src="/xeact/dist/env.min.js"></script>
+    ```
+
+3. Use the registered component as a Custom Element in HTML
+
     ```xml
     <x-box header="Hello">
         <p>World</p>
     </x-box>
-    ```
-
-3. Import Custom Elements v1 polyfills
-    ```xml
-    <script src="/xeact/dist/env.min.js"></script>
     ```
 
 4. Done

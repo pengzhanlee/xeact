@@ -3,41 +3,43 @@
 [![Build Status](https://travis-ci.org/pengzhanlee/xeact.svg?branch=master)](https://travis-ci.org/pengzhanlee/xeact)
 [![Coverage Status](https://coveralls.io/repos/github/pengzhanlee/xeact/badge.svg?branch=master)](https://coveralls.io/github/pengzhanlee/xeact?branch=master)
 
-xeact is a JavaScript library for connecting [React Components](https://reactjs.org/docs/react-component.html) and [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
+xeact 旨在建立一种 [React Components](https://reactjs.org/docs/react-component.html) 和 [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/) 的友好连接关系和方式
 
-[README 中文](README-zh_CN.md)
+[README in English](README.md)
 
-## Installation
+## 安装
 
 ```sh
 npm install xeact --save
 ```
 
-## Quick Start
+## 快速上手
 
-1. Register component
+1. 注册组件
 
     ```js
     import xeact, {observed, exposed, dispatchEvent, Component} from "xeact";
 
-    // register a Component with tag name 'box'
+    // 注册组件为 box 标签
     @xeact('box')
 
     export default class Box extends Component {
 
         static propTypes = {
 
-            // observe 'header' attribute change from dom
+            // 响应标签的 'header' 属性在 dom 中的变化
             @observed
             header: PropTypes.string,
         };
 
+        // 向 dom 暴露的方法
         @exposed
         method() {
-            // this method can be called from dom api
+            // 该方法允许以 dom api 的方式调用
         }
 
         headerClick() {
+            // 派发 dom 事件
             dispatchEvent(this, 'headerClick' , {
                 header: this.props.header
             });
@@ -59,19 +61,23 @@ npm install xeact --save
     }
     ```
 
-2. Use the registered component as a Custom Element in HTML
+
+2. 引入 Custom Elements v1 支持
+
+    ```xml
+    <script src="/xeact/dist/env.min.js"></script>
+    ```
+
+3. 在 HTML 中以标签的形式调用组件
+
     ```xml
     <x-box header="Hello">
         <p>World</p>
     </x-box>
     ```
 
-3. Import Custom Elements v1 polyfills
-    ```xml
-    <script src="/xeact/dist/env.min.js"></script>
-    ```
 
-4. Done
+4. 完成
 
     ![](https://raw.githubusercontent.com/pengzhanlee/xeact/master/docs/image/quickStart.png)
 
