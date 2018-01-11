@@ -1,5 +1,5 @@
-import {isAttrIgnored, attrValueGuesser, attrNameParser, attrToProp, attrsToProps, observed} from './attributes';
-import {observedSymbol} from "./identifiers";
+import {isAttrIgnored, attrValueGuesser, attrNameParser, attrToProp, attrsToProps, observed} from '../src/attributes';
+import {observedSymbol} from "../src/identifiers";
 
 describe('isAttrIgnored()', () => {
 

@@ -1,4 +1,4 @@
-import {getChildren} from "./dom";
+import {getChildren} from "../src/dom";
 
 describe("", () => {
     const dom = document.createElement('dv');

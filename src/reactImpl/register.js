@@ -52,7 +52,7 @@ export function register(name, {
                     this.__HasAppendChild = paddingContainer(this);
                 }
 
-                moveStyles(this);
+                // moveStyles(this);
 
                 super.componentDidMount && super.componentDidMount(...args);
 
