@@ -37,6 +37,8 @@ export default function (component) {
         });
         body.appendChild(children);
 
+        component.__child = body;
+
         return true;
     }
 

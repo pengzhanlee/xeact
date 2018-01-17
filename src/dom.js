@@ -81,3 +81,20 @@ export let raiseClassName = (context) => {
         node.classList.remove(className);
     }
 };
+
+/**
+ * TODO: 通过解析树获取而非dom关系
+ * 获取父节点
+ * @param context
+ * @return {{customElement: Node | SVGElementInstance, root: *, id: string|*}}
+ */
+export let getParent = (context) => {
+    const node = ReactDOM.findDOMNode(context);
+    const target = node.parentNode.parentNode.parentNode;
+
+    return {
+        customElement: target,
+        root: target._reactElement.__child,
+        id: target._id,
+    }
+};
