@@ -1,7 +1,7 @@
 # xeact
 
 [![Build Status](https://travis-ci.org/pengzhanlee/xeact.svg?branch=master)](https://travis-ci.org/pengzhanlee/xeact)
-[![Coverage Status](https://coveralls.io/repos/github/pengzhanlee/xeact/badge.svg?branch=master)](https://coveralls.io/github/pengzhanlee/xeact?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/pengzhanlee/xeact/badge.svg?branch=master&service=github)](https://coveralls.io/github/pengzhanlee/xeact?branch=master)
 
 xeact is a JavaScript library for connecting [React Components](https://reactjs.org/docs/react-component.html) and [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
 

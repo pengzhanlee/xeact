@@ -3,7 +3,7 @@
  * @param el
  * @param reverse 反转标记
  */
-import * as ReactDOM from "react-dom";
+import ReactDOM from "react-dom";
 import {childrenAttrTag, childrenAttrValue} from "./identifiers";
 
 export const markTemp = (el, reverse = false) => {
@@ -58,4 +58,26 @@ export let getOperableContextRoot = (reactElement) => {
     }
 
     return context;
+};
+
+/**
+ * 将组件的 className 由组件根元素移动到 CE
+ * @param context
+ */
+export let raiseClassName = (context) => {
+    const node = ReactDOM.findDOMNode(context);
+
+    const nodeClassNames = node.className.split(' ');
+    const parentNode = node.parentNode;
+
+    // 避免重复添加
+    for (let className of context.movedClass) {
+        parentNode.classList.remove(className);
+    }
+
+    for (let className of nodeClassNames) {
+        parentNode.classList.add(className);
+        context.movedClass.add(className);
+        node.classList.remove(className);
+    }
 };
