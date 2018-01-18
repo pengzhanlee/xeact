@@ -76,10 +76,13 @@ export function register(name, {
                     this.__HasAppendChild = paddingContainer(this);
                 }
 
-                // moveStyles(this);
-
                 if(raiseClassName) {
                     raiseClassNameFn(this);
+                } else {
+                    // style 位置应该与 class 位置保持一致
+                    // 对于未提升 className 的标签, 移动 style 属性到真正的容器 ref=body
+                    // TODO: 样式应该如何控制更合理
+                    moveStyles(this);
                 }
 
                 super.componentDidMount && super.componentDidMount(...args);
@@ -107,6 +110,8 @@ export function register(name, {
 
                 if(raiseClassName) {
                     raiseClassNameFn(this);
+                }else {
+                    moveStyles(this);
                 }
 
                 super.componentDidUpdate && super.componentDidUpdate(...args);
