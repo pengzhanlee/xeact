@@ -9,12 +9,12 @@ import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 export const markTemp = (el, reverse = false) => {
     if (el) {
         el._webComponentTemp = !reverse;
-        if (el.children && el.children.length) {
-            for (let i = 0, j = el.children.length; i < j; i++) {
-                let child = el.children[i];
-                markTemp(child, reverse);
-            }
-        }
+        // if (el.children && el.children.length) {
+        //     for (let i = 0, j = el.children.length; i < j; i++) {
+        //         let child = el.children[i];
+        //         markTemp(child, reverse);
+        //     }
+        // }
     }
 };
 
