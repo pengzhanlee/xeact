@@ -67,6 +67,8 @@ export let getOperableContextRoot = (reactElement) => {
 export let raiseClassName = (context) => {
     const node = ReactDOM.findDOMNode(context);
 
+    if(!node.className) return;
+
     const nodeClassNames = node.className.split(' ');
     const parentNode = node.parentNode;
 
