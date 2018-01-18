@@ -3,7 +3,7 @@ import logger from '../utils/logger';
 import {findPropTypesFromHOC, getDisplayName} from "../utils/react";
 import paddingContainer from "./paddingContainer";
 import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
-import {raiseClassName as raiseClassNameFn} from '../dom';
+import {raiseClassName as raiseClassNameFn} from './dom';
 import {moveStyles} from "../styles";
 
 
@@ -51,6 +51,8 @@ export function register(name, {
         class WebComponentsHOC extends WrappedComponent {
 
             static displayName = `${displayName}`;
+
+            static tagName = name;
 
             static getWrappedComponent() {
                 return WrappedComponent;

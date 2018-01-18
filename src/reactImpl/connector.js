@@ -4,11 +4,11 @@ import {attrsToProps, attrToProp} from "../attributes";
 import logger from '../utils/logger';
 import {exposeMethods} from "../methods";
 import {creator, updater} from "./builder";
-import * as dom from "../dom";
+import * as dom from "./dom";
 import {attrFlag, childrenAttrTag, childrenAttrValue} from "../identifiers";
 import {suuid} from '../utils/common';
 import {registerTagDisplayMode} from "../styles";
-import {getOperableContextRoot} from "../dom";
+import {getOperableContextRoot} from "./dom";
 import {findWrappedComponentFromHOC, getDisplayName} from "../utils/react";
 
 /**

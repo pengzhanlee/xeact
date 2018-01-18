@@ -1,4 +1,4 @@
-import {getChildren} from "../src/dom";
+import {getChildren} from "../src/reactImpl/dom";
 
 describe("", () => {
     const dom = document.createElement('dv');

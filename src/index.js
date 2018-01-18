@@ -6,7 +6,7 @@ export {observed} from './attributes';
 
 export {dispatchEvent} from './events';
 
-export {getParent} from './dom';
+export * as XeactDOM from './domApi';
 
 export {Component, PureComponent} from './reactImpl/Component';
 

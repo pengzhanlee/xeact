@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import {getDisplayName} from "../utils/react";
-import {markTemp} from "../dom";
+import {markTemp} from "./dom";
 import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 
 /**

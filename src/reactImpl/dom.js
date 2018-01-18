@@ -4,13 +4,13 @@
  * @param reverse 反转标记
  */
 import ReactDOM from "react-dom";
-import {childrenAttrTag, childrenAttrValue} from "./identifiers";
+import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 
 export const markTemp = (el, reverse = false) => {
-    if(el) {
+    if (el) {
         el._webComponentTemp = !reverse;
         if (el.children && el.children.length) {
-            for(let i = 0, j = el.children.length; i < j; i++) {
+            for (let i = 0, j = el.children.length; i < j; i++) {
                 let child = el.children[i];
                 markTemp(child, reverse);
             }
@@ -44,10 +44,10 @@ export let getChildren = (el) => {
 export let getOperableContextRoot = (reactElement) => {
     let context = ReactDOM.findDOMNode(reactElement);
 
-    if(!context) return null;
+    if (!context) return null;
 
     const childrenAttr = context.getAttribute(childrenAttrTag);
-    if(childrenAttr !== childrenAttrValue) {
+    if (childrenAttr !== childrenAttrValue) {
 
         // reactElement 的容器在子元素 或 reactElement 不是容器类组件
         // 若 reactElement 不是容器类组件，则 querySelector 的结果为 null
@@ -79,22 +79,5 @@ export let raiseClassName = (context) => {
         parentNode.classList.add(className);
         context.movedClass.add(className);
         node.classList.remove(className);
-    }
-};
-
-/**
- * TODO: 通过解析树获取而非dom关系
- * 获取父节点
- * @param context
- * @return {{customElement: Node | SVGElementInstance, root: *, id: string|*}}
- */
-export let getParent = (context) => {
-    const node = ReactDOM.findDOMNode(context);
-    const target = node.parentNode.parentNode.parentNode;
-
-    return {
-        customElement: target,
-        root: target._reactElement.__child,
-        id: target._id,
     }
 };
