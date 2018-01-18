@@ -42,11 +42,14 @@ import {findWrappedComponentFromHOC, getDisplayName} from "../utils/react";
 
 const definedElements = new Set();
 
+// 对与任意标签，都需要响应 style 和 class 的变动
+const defaultObservedAttributes = ['style', 'class'];
+
 const connector = (elementName, ReactComponent) => {
 
     class NewElement extends HTMLElement {
 
-        static observedAttributes = ReactComponent.observedAttributes;
+        static observedAttributes = ReactComponent.observedAttributes.concat(defaultObservedAttributes);
 
         /**
          * 组件连接标记
