@@ -1,22 +1,29 @@
 import ReactDOM from "react-dom";
-import {componentNamespace} from "./identifiers";
+import {attrFlag, componentNamespace} from "./identifiers";
 
 /**
  * TODO: 通过解析树获取而非dom关系
+ * node === self
+ * parent === self ce.
+ * parent.parent === parent root.
+ * parent.parent.parent === parent ce.
  * 获取父节点
  * @param context
- * @return {{customElement: Node | SVGElementInstance, root: *, id: string|*}}
+ * @return {*}
  */
-export let getParent = (context) => {
+export function getParent(context){
     const node = ReactDOM.findDOMNode(context);
-    const target = node.parentNode.parentNode.parentNode;
+
+    const targetContainer = node.parentNode.parentNode;
+
+    const id = targetContainer.parentNode.getAttribute(attrFlag);
 
     return {
-        customElement: target,
-        root: target._reactElement.__child,
-        id: target._id,
+        customElement: targetContainer.parentNode,
+        container: targetContainer,
+        id: id,
     }
-};
+}
 
 /**
  * 是否存在某种自定义标签的子代元素
@@ -32,6 +39,23 @@ export function hasChildOfTag(context, tagName) {
         if(child.nodeName === `${componentNamespace}-${tagName}`.toUpperCase()) {
             return true;
         }
+    }
+
+    return false;
+}
+
+/**
+ * 父元素是否为某种ce
+ * @param context
+ * @param tagName
+ * @return {boolean}
+ */
+export function parentIsTag(context, tagName) {
+    const parent = getParent(context);
+
+    if(parent.customElement) {
+        console.log(parent.customElement.nodeName, tagName);
+        return parent.customElement.nodeName === `${componentNamespace}-${tagName}`.toUpperCase();
     }
 
     return false;

@@ -145,7 +145,7 @@ const connector = (elementName, ReactComponent) => {
             // for debug
             this.setAttribute(attrFlag, this._id);
 
-            logger.info(`CE _${this._id}_ (${elementName}) connected`);
+            logger.info(`CE _${this._id}_ (${elementName}) connecting`);
 
             // props 解析
             this._props = attrsToProps(this.attributes);
@@ -164,10 +164,11 @@ const connector = (elementName, ReactComponent) => {
                 // react dom render
 
                 this._reactElement = renderedInstance;
-
                 this.connected = true;
 
                 exposeMethods(this._reactElement, this);
+
+                logger.info(`CE _${this._id}_ (${elementName}) connected`);
             });
         }
 

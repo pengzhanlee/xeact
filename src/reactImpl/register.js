@@ -3,7 +3,7 @@ import logger from '../utils/logger';
 import {findPropTypesFromHOC, getDisplayName} from "../utils/react";
 import paddingContainer from "./paddingContainer";
 import {componentNamespace, observedSymbol, reactWebComponentDisplayName} from "../identifiers";
-import {raiseClassName as raiseClassNameFn} from './dom';
+import {dropClassName, raiseClassName as raiseClassNameFn} from './dom';
 import {moveStyles} from "../styles";
 
 
@@ -83,6 +83,7 @@ export function register(name, {
                     // 对于未提升 className 的标签, 移动 style 属性到真正的容器 ref=body
                     // TODO: 样式应该如何控制更合理
                     moveStyles(this);
+                    dropClassName(this);
                 }
 
                 super.componentDidMount && super.componentDidMount(...args);
@@ -112,6 +113,7 @@ export function register(name, {
                     raiseClassNameFn(this);
                 }else {
                     moveStyles(this);
+                    dropClassName(this);
                 }
 
                 super.componentDidUpdate && super.componentDidUpdate(...args);

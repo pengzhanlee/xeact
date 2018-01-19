@@ -83,3 +83,19 @@ export let raiseClassName = (context) => {
         node.classList.remove(className);
     }
 };
+
+
+/**
+ * 将组件的 className 由 CE 移动到组件根元素
+ * @param context
+ */
+export let dropClassName = (context) => {
+    const root = context.props.container;
+    const node = ReactDOM.findDOMNode(context);
+    const classList = root.classList;
+
+    for(let className of classList) {
+        root.classList.remove(className);
+        node.classList.add(className);
+    }
+};

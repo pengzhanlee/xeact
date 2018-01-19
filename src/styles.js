@@ -16,7 +16,7 @@ export const registerTagDisplayMode = (elementName, ReactComponent) => {
 };
 
 /**
- * 移动样式， 从 CE 移动到 React 渲染根节点
+ * 移动样式， 从 CE 移动到 React 渲染根节点 (下移)
  *
  * 问题
  *
