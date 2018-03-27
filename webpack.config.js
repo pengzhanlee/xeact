@@ -1,15 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
-var production = process.env.NODE_ENV === 'production';
+const path = require('path');
+const webpack = require('webpack');
+const production = process.env.NODE_ENV === 'production';
+const ConcatPlugin = require('webpack-concat-plugin');
 
 module.exports = {
     entry: {
         'xeact': './src/index.js',
-        'env': './src/ceEnv.js',
     },
 
     output: {
-        path: path.resolve(__dirname, 'dist' ),
+        path: path.resolve(__dirname, 'dist'),
         filename: production ? '[name].min.js' : '[name].js',
         library: 'xeact',
         libraryTarget: 'umd'
@@ -47,10 +47,17 @@ module.exports = {
             },
         },
     ],
-    plugins: production ? [
-        new webpack.optimize.UglifyJsPlugin({
-            exclude: ['env'],
-            compress: { warnings: false },
+    plugins: [
+        new ConcatPlugin({
+            uglify: false,
+            sourceMap: false,
+            name: 'env',
+            outputPath: './',
+            fileName: '[name].js',
+            filesToConcat: [
+                path.resolve(__dirname, 'node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js'),
+                path.resolve(__dirname, 'node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js'),
+            ],
         })
-    ] : []
+    ]
 };

@@ -1,11 +1,10 @@
-
 export function getDisplayName(WrappedComponent) {
 
-    if(!WrappedComponent) return null;
+  if (!WrappedComponent) return null;
 
-    return WrappedComponent.displayName ||
-        WrappedComponent.name ||
-        'Component';
+  return WrappedComponent.displayName ||
+    WrappedComponent.name ||
+    'Component';
 }
 
 /**
@@ -15,13 +14,13 @@ export function getDisplayName(WrappedComponent) {
  */
 export function findWrappedComponentFromHOC(Component) {
 
-    if(Component.Naked) {
-        return findWrappedComponentFromHOC(Component.Naked);
-    } else if(Component.WrappedComponent) {
-        return findWrappedComponentFromHOC(Component.WrappedComponent);
-    }
+  if (Component.Naked) {
+    return findWrappedComponentFromHOC(Component.Naked);
+  } else if (Component.WrappedComponent) {
+    return findWrappedComponentFromHOC(Component.WrappedComponent);
+  }
 
-    return Component;
+  return Component;
 }
 
 /**
@@ -31,8 +30,8 @@ export function findWrappedComponentFromHOC(Component) {
  */
 export function findPropTypesFromHOC(Component) {
 
-    Component = findWrappedComponentFromHOC(Component);
+  Component = findWrappedComponentFromHOC(Component);
 
-    return Component.propTypes || {};
+  return Component.propTypes || {};
 
 }

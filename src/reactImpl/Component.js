@@ -6,27 +6,27 @@ import {addIdToInstanceRelation} from "../methods";
  * 将 instanceId (xeactId) 与 internal instance 关联
  */
 function methodExpose() {
-    // const exposedId = this[EXPOSED_METHODS_ID_KEY];
-    //
-    // const exposedInstance = getExposedInstance(exposedId);
-    //
-    // if(exposedInstance) {
-    //     const {_id: id} = this.props;
-    //
-    //     addIdToInstanceConnection(id, exposedInstance, this, exposedId);
-    // }
+  // const exposedId = this[EXPOSED_METHODS_ID_KEY];
+  //
+  // const exposedInstance = getExposedInstance(exposedId);
+  //
+  // if(exposedInstance) {
+  //     const {_id: id} = this.props;
+  //
+  //     addIdToInstanceConnection(id, exposedInstance, this, exposedId);
+  // }
 
-    const {_id: id} = this.props;
+  const {_id: id} = this.props;
 
-    addIdToInstanceRelation(id, this);
+  addIdToInstanceRelation(id, this);
 }
 
 export class PureComponent extends React.PureComponent {
 
-    constructor(...args) {
-        super(...args);
-        this::methodExpose();
-    }
+  constructor(...args) {
+    super(...args);
+    this::methodExpose();
+  }
 
 }
 
@@ -35,10 +35,10 @@ export class PureComponent extends React.PureComponent {
  */
 export class Component extends React.Component {
 
-    constructor(...args) {
-        super(...args);
-        this::methodExpose();
-    }
+  constructor(...args) {
+    super(...args);
+    this::methodExpose();
+  }
 
 }
 

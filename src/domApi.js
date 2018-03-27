@@ -11,18 +11,18 @@ import {attrFlag, componentNamespace} from "./identifiers";
  * @param context
  * @return {*}
  */
-export function getParent(context){
-    const node = ReactDOM.findDOMNode(context);
+export function getParent(context) {
+  const node = ReactDOM.findDOMNode(context);
 
-    const targetContainer = node.parentNode.parentNode;
+  const targetContainer = node.parentNode.parentNode;
 
-    const id = targetContainer.parentNode.getAttribute(attrFlag);
+  const id = targetContainer.parentNode.getAttribute(attrFlag);
 
-    return {
-        customElement: targetContainer.parentNode,
-        container: targetContainer,
-        id: id,
-    }
+  return {
+    customElement: targetContainer.parentNode,
+    container: targetContainer,
+    id: id,
+  }
 }
 
 /**
@@ -32,16 +32,16 @@ export function getParent(context){
  * @return {boolean}
  */
 export function hasChildOfTag(context, tagName) {
-    const node = ReactDOM.findDOMNode(context);
-    const children = node.children;
+  const node = ReactDOM.findDOMNode(context);
+  const children = node.children;
 
-    for(const child of children) {
-        if(child.nodeName === `${componentNamespace}-${tagName}`.toUpperCase()) {
-            return true;
-        }
+  for (const child of children) {
+    if (child.nodeName === `${componentNamespace}-${tagName}`.toUpperCase()) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 /**
@@ -51,12 +51,12 @@ export function hasChildOfTag(context, tagName) {
  * @return {boolean}
  */
 export function parentIsTag(context, tagName) {
-    const parent = getParent(context);
+  const parent = getParent(context);
 
-    if(parent.customElement) {
-        console.log(parent.customElement.nodeName, tagName);
-        return parent.customElement.nodeName === `${componentNamespace}-${tagName}`.toUpperCase();
-    }
+  if (parent.customElement) {
+    console.log(parent.customElement.nodeName, tagName);
+    return parent.customElement.nodeName === `${componentNamespace}-${tagName}`.toUpperCase();
+  }
 
-    return false;
+  return false;
 }

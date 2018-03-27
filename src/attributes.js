@@ -6,22 +6,22 @@
 import {observedSymbol} from "./identifiers";
 
 let ignores = [
-    'accesskey',
-    'class',
-    'contenteditable',
-    'contextmenu',
-    'dir',
-    'draggable',
-    'dropzone',
-    'hidden',
-    'id',
-    'itemprop',
-    'lang',
-    'slot',
-    'spellcheck',
-    'style',
-    'tabindex',
-    'title',
+  'accesskey',
+  'class',
+  'contenteditable',
+  'contextmenu',
+  'dir',
+  'draggable',
+  'dropzone',
+  'hidden',
+  'id',
+  'itemprop',
+  'lang',
+  'slot',
+  'spellcheck',
+  'style',
+  'tabindex',
+  'title',
 ];
 
 /**
@@ -31,12 +31,12 @@ let ignores = [
  */
 export let isAttrIgnored = (attr) => {
 
-    // 过滤 DOM Level 0 事件
-    if (/^on\w+$/i.test(attr) && window.hasOwnProperty(attr)) {
-        return true;
-    }
+  // 过滤 DOM Level 0 事件
+  if (/^on\w+$/i.test(attr) && window.hasOwnProperty(attr)) {
+    return true;
+  }
 
-    return ignores.includes(attr);
+  return ignores.includes(attr);
 };
 
 /**
@@ -45,74 +45,74 @@ export let isAttrIgnored = (attr) => {
  * @returns {*}
  */
 export let attrValueGuesser = (attrValue) => {
-    // if( (attr.startsWith('\'') && attr.endsWith('\'')) || (attr.startsWith('"') && attr.endsWith('"'))){
-    //     // string
-    //     return attr.replace(/^["']/, "").replace(/["']$/, "");
-    // }
+  // if( (attr.startsWith('\'') && attr.endsWith('\'')) || (attr.startsWith('"') && attr.endsWith('"'))){
+  //     // string
+  //     return attr.replace(/^["']/, "").replace(/["']$/, "");
+  // }
 
-    if (!attrValue)
-        return {
-            // 模仿原生
-            type: String,
-            value: ''
-        };
-
-    let guess = {
-        type: null,
-        value: null,
+  if (!attrValue)
+    return {
+      // 模仿原生
+      type: String,
+      value: ''
     };
 
-    try {
-        // standard JSON / Number
-        let result = JSON.parse(attrValue);
-        guess.value = result;
+  let guess = {
+    type: null,
+    value: null,
+  };
 
-        if (!isNaN(result)) {
-            guess.type = Number;
-        } else {
-            guess.type = JSON;
-        }
+  try {
+    // standard JSON / Number
+    let result = JSON.parse(attrValue);
+    guess.value = result;
 
-    } catch (e) {
-        if (/^[\s\n\r]*function\s*\(.*?\)\s*\{/.test(attrValue)) {
-            // function
-
-            let matcher = attrValue.match(/function\s*\(([\s\S]*?)\)\s*\{([\s\S]*)\}/);
-            // argument string list
-
-            let args = matcher[1];
-
-            let body = matcher[2];
-
-            args = args.split(',');
-
-            guess.value = new Function(...args, body);
-            guess.type = Function;
-
-        } else {
-            // non-standard JSON
-            try {
-                let result = new Function(`return ${attrValue}`)();
-
-                // chrome 中, 如果一个属性值与某个元素的 id 相等
-                // 则此处会被解析为 element
-                if(!(result instanceof HTMLElement)) {
-                    guess.value = result;
-                    guess.type = JSON;
-                }
-            } catch (e) {
-                // console.error('参数所有数据类型推断错误，请检查参数正确性...', attr, e);
-                // String 为第一要素，此处不能推导失败
-            }
-        }
+    if (!isNaN(result)) {
+      guess.type = Number;
+    } else {
+      guess.type = JSON;
     }
 
-    if (!guess.type) {
-        guess.type = String;
-        guess.value = attrValue;
-    }
+  } catch (e) {
+    if (/^[\s\n\r]*function\s*\(.*?\)\s*\{/.test(attrValue)) {
+      // function
 
-    return guess;
+      let matcher = attrValue.match(/function\s*\(([\s\S]*?)\)\s*\{([\s\S]*)\}/);
+      // argument string list
+
+      let args = matcher[1];
+
+      let body = matcher[2];
+
+      args = args.split(',');
+
+      guess.value = new Function(...args, body);
+      guess.type = Function;
+
+    } else {
+      // non-standard JSON
+      try {
+        let result = new Function(`return ${attrValue}`)();
+
+        // chrome 中, 如果一个属性值与某个元素的 id 相等
+        // 则此处会被解析为 element
+        if (!(result instanceof HTMLElement)) {
+          guess.value = result;
+          guess.type = JSON;
+        }
+      } catch (e) {
+        // console.error('参数所有数据类型推断错误，请检查参数正确性...', attr, e);
+        // String 为第一要素，此处不能推导失败
+      }
+    }
+  }
+
+  if (!guess.type) {
+    guess.type = String;
+    guess.value = attrValue;
+  }
+
+  return guess;
 };
 
 /**
@@ -120,11 +120,11 @@ export let attrValueGuesser = (attrValue) => {
  * @param attrName
  */
 export let attrNameParser = (attrName) => {
-    return attrName
-        .replace(/^(x|data)[-_:]/i, '')
-        .replace(/[-_:](.)/g, function (x, chr) {
-            return chr.toUpperCase();
-        });
+  return attrName
+    .replace(/^(x|data)[-_:]/i, '')
+    .replace(/[-_:](.)/g, function (x, chr) {
+      return chr.toUpperCase();
+    });
 };
 
 /**
@@ -133,15 +133,15 @@ export let attrNameParser = (attrName) => {
  * @returns {{}}
  */
 export let attrsToProps = (attributes) => {
-    let props = {};
-    for (let i = 0; i < attributes.length; i++) {
-        let attribute = attributes[i];
+  let props = {};
+  for (let i = 0; i < attributes.length; i++) {
+    let attribute = attributes[i];
 
-        let {key, prop} = attrToProp(attribute.name, attribute.value);
-        props[key] = prop;
-    }
+    let {key, prop} = attrToProp(attribute.name, attribute.value);
+    props[key] = prop;
+  }
 
-    return props;
+  return props;
 };
 
 /**
@@ -152,17 +152,17 @@ export let attrsToProps = (attributes) => {
  */
 export let attrToProp = (originAttrName, attrValue) => {
 
-    let key, prop;
+  let key, prop;
 
-    if(isAttrIgnored(originAttrName)) {
-        key = originAttrName;
-        prop = attrValue;
-    }else {
-        key = attrNameParser(originAttrName);
-        prop = attrValueGuesser(attrValue).value;
-    }
+  if (isAttrIgnored(originAttrName)) {
+    key = originAttrName;
+    prop = attrValue;
+  } else {
+    key = attrNameParser(originAttrName);
+    prop = attrValueGuesser(attrValue).value;
+  }
 
-    return {key, prop};
+  return {key, prop};
 };
 
 
@@ -175,16 +175,18 @@ export let attrToProp = (originAttrName, attrValue) => {
  */
 export function observed(propTypes, key, property) {
 
-    let existsObserved = propTypes[observedSymbol] || [];
+  let existsObserved = propTypes[observedSymbol] || [];
 
-    key = key.replace(/[A-Z]/g, (c)=>{ return `-${c.toLowerCase()}` });
+  key = key.replace(/[A-Z]/g, (c) => {
+    return `-${c.toLowerCase()}`
+  });
 
-    Object.defineProperty(propTypes, observedSymbol, {
-        value: existsObserved.concat(key),
-        configurable: true,
+  Object.defineProperty(propTypes, observedSymbol, {
+    value: existsObserved.concat(key),
+    configurable: true,
 
-        // 复制有效
-        enumerable: true
-    });
+    // 复制有效
+    enumerable: true
+  });
 
 }

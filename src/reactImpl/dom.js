@@ -7,15 +7,15 @@ import ReactDOM from "react-dom";
 import {childrenAttrTag, childrenAttrValue} from "../identifiers";
 
 export const markTemp = (el, reverse = false) => {
-    if (el) {
-        el._webComponentTemp = !reverse;
-        // if (el.children && el.children.length) {
-        //     for (let i = 0, j = el.children.length; i < j; i++) {
-        //         let child = el.children[i];
-        //         markTemp(child, reverse);
-        //     }
-        // }
-    }
+  if (el) {
+    el._webComponentTemp = !reverse;
+    // if (el.children && el.children.length) {
+    //     for (let i = 0, j = el.children.length; i < j; i++) {
+    //         let child = el.children[i];
+    //         markTemp(child, reverse);
+    //     }
+    // }
+  }
 };
 
 /**
@@ -25,15 +25,15 @@ export const markTemp = (el, reverse = false) => {
  * @returns {DocumentFragment}
  */
 export let getChildren = (el) => {
-    let fragment = document.createDocumentFragment();
-    // TODO: text node
-    while (el.childNodes.length) {
-        let node = el.childNodes[0];
-        markTemp(node);
-        fragment.appendChild(node);
-    }
+  let fragment = document.createDocumentFragment();
+  // TODO: text node
+  while (el.childNodes.length) {
+    let node = el.childNodes[0];
+    markTemp(node);
+    fragment.appendChild(node);
+  }
 
-    return fragment;
+  return fragment;
 };
 
 /**
@@ -42,22 +42,22 @@ export let getChildren = (el) => {
  * @returns {*}
  */
 export let getOperableContextRoot = (reactElement) => {
-    let context = ReactDOM.findDOMNode(reactElement);
+  let context = ReactDOM.findDOMNode(reactElement);
 
-    if (!context) return null;
+  if (!context) return null;
 
-    const childrenAttr = context.getAttribute(childrenAttrTag);
-    if (childrenAttr !== childrenAttrValue) {
+  const childrenAttr = context.getAttribute(childrenAttrTag);
+  if (childrenAttr !== childrenAttrValue) {
 
-        // reactElement 的容器在子元素 或 reactElement 不是容器类组件
-        // 若 reactElement 不是容器类组件，则 querySelector 的结果为 null
-        // 若 reactElement 存在多个嵌套后代容器类组件，则 querySelector 返回子代
-        context = context.querySelector(`[${childrenAttrTag}=${childrenAttrValue}]`);
-    } else {
-        // reactElement 是容器本身
-    }
+    // reactElement 的容器在子元素 或 reactElement 不是容器类组件
+    // 若 reactElement 不是容器类组件，则 querySelector 的结果为 null
+    // 若 reactElement 存在多个嵌套后代容器类组件，则 querySelector 返回子代
+    context = context.querySelector(`[${childrenAttrTag}=${childrenAttrValue}]`);
+  } else {
+    // reactElement 是容器本身
+  }
 
-    return context;
+  return context;
 };
 
 /**
@@ -65,23 +65,23 @@ export let getOperableContextRoot = (reactElement) => {
  * @param context
  */
 export let raiseClassName = (context) => {
-    const node = ReactDOM.findDOMNode(context);
+  const node = ReactDOM.findDOMNode(context);
 
-    if(!node.className) return;
+  if (!node.className) return;
 
-    const nodeClassNames = node.className.split(' ');
-    const parentNode = node.parentNode;
+  const nodeClassNames = node.className.split(' ');
+  const parentNode = node.parentNode;
 
-    // 避免重复添加
-    for (let className of context.movedClass) {
-        parentNode.classList.remove(className);
-    }
+  // 避免重复添加
+  for (let className of context.movedClass) {
+    parentNode.classList.remove(className);
+  }
 
-    for (let className of nodeClassNames) {
-        parentNode.classList.add(className);
-        context.movedClass.add(className);
-        node.classList.remove(className);
-    }
+  for (let className of nodeClassNames) {
+    parentNode.classList.add(className);
+    context.movedClass.add(className);
+    node.classList.remove(className);
+  }
 };
 
 
@@ -90,12 +90,12 @@ export let raiseClassName = (context) => {
  * @param context
  */
 export let dropClassName = (context) => {
-    const root = context.props.container;
-    const node = ReactDOM.findDOMNode(context);
-    const classList = root.classList;
+  const root = context.props.container;
+  const node = ReactDOM.findDOMNode(context);
+  const classList = root.classList;
 
-    for(let className of classList) {
-        root.classList.remove(className);
-        node.classList.add(className);
-    }
+  for (let className of classList) {
+    root.classList.remove(className);
+    node.classList.add(className);
+  }
 };
