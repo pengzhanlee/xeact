@@ -87,9 +87,9 @@ export let exposeMethods = (internalInstance, root) => {
 };
 
 
-let recordBySymbol = (instance, name, symbol) => {
-  instance[symbol] = instance[symbol] || new Set();
-  instance[symbol] = instance[symbol].add(name);
+let recordBySymbol = (target, name, symbol) => {
+  target[symbol] = target[symbol] || new Set();
+  target[symbol] = target[symbol].add(name);
 
   // // 一次记录即可找到索引
   // if(recordedInstances.has(instance)) {
@@ -113,18 +113,18 @@ let recordBySymbol = (instance, name, symbol) => {
  * getter / setter 只能成对暴露
  * 即 只要暴露了 getter ，则 setter 也会暴露
  *
- * @param instance
+ * @param target
  * @param name
  * @param descriptor
  */
-export let exposed = (instance, name, descriptor) => {
+export let exposed = (target, name, descriptor) => {
 
   if (descriptor.get || descriptor.set) {
-    recordBySymbol(instance, name, exposedGetterSetterSymbol);
+    recordBySymbol(target, name, exposedGetterSetterSymbol);
   }
 
   if (descriptor.value) {
-    recordBySymbol(instance, name, exposedSymbol);
+    recordBySymbol(target, name, exposedSymbol);
   }
 
 };
