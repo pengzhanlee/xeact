@@ -25,7 +25,7 @@ export class PureComponent extends React.PureComponent {
 
     constructor(...args) {
         super(...args);
-        this::methodExpose();
+        methodExpose.bind(this)();
     }
 
 }
@@ -37,7 +37,7 @@ export class Component extends React.Component {
 
     constructor(...args) {
         super(...args);
-        this::methodExpose();
+        methodExpose.bind(this)();
     }
 
 }

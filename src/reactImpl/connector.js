@@ -117,8 +117,8 @@ const connector = (elementName, ReactComponent) => {
          * 了解可在  <code><span>constructor</span></code> 中完成的操作的相关限制。</td>
          * @param self
          */
-        constructor(self) {
-            super(self);
+        constructor() {
+            super();
         }
 
         /**

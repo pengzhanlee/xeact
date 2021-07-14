@@ -1,11 +1,23 @@
 {
     "presets": [
-        "es2015",
-        "stage-0",
-        "react"
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "entry",
+                "corejs": 3,
+                "targets": {
+                    "chrome": "58",
+                    "ie": "11"
+                }
+            }
+        ]
     ],
     "plugins": [
-        "transform-runtime",
-        "transform-decorators-legacy"
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ]
     ]
 }

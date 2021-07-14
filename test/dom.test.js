@@ -1,6 +1,6 @@
 import {getChildren} from "../src/reactImpl/dom";
 
-describe("", () => {
+describe("dom", () => {
     const dom = document.createElement('dv');
     dom.innerHTML = `<div><span><a>xx</a></span></div>`;
     test('set _webComponentTemp for every children', () => {
@@ -10,10 +10,10 @@ describe("", () => {
         expect(div._webComponentTemp).toBe(true);
 
         const span = div.querySelector('span');
-        expect(span._webComponentTemp).toBe(true);
+        expect(span._webComponentTemp).toBe(undefined);
 
         const a = span.querySelector('a');
-        expect(a._webComponentTemp).toBe(true);
+        expect(a._webComponentTemp).toBe(undefined);
     });
 
 });
