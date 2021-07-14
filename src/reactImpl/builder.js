@@ -8,9 +8,9 @@ import {config} from '../configure';
  * @param root
  */
 const renderDOM = (element, root) => new Promise((resolve) => {
-    ReactDOM.render(element, root, function () {
-        resolve(this);
-    });
+  ReactDOM.render(element, root, function () {
+    resolve(this);
+  });
 });
 
 /**
@@ -24,14 +24,14 @@ const renderDOM = (element, root) => new Promise((resolve) => {
  * @returns {*}
  */
 const createAndUpdateReact = async (root, Component, props = {}) => {
-    const {store = {}, dispatch} = config;
-    props.store = props.store || store;
-    props.dispatch = props.dispatch || dispatch;
+  const {store = {}, dispatch} = config;
+  props.store = props.store || store;
+  props.dispatch = props.dispatch || dispatch;
 
-    const element = React.createElement(Component, props);
-    root._internalInstance = element;
+  const element = React.createElement(Component, props);
+  root._internalInstance = element;
 
-    return await renderDOM(element, root);
+  return await renderDOM(element, root);
 };
 
 

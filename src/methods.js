@@ -11,7 +11,7 @@ const componentIdToInstance = new Map();
  * @param instance
  */
 export const addIdToInstanceRelation = (instanceId, instance) => {
-    componentIdToInstance.set(instanceId, instance);
+  componentIdToInstance.set(instanceId, instance);
 };
 
 
@@ -43,66 +43,66 @@ export const addIdToInstanceRelation = (instanceId, instance) => {
  */
 export let exposeMethods = (internalInstance, root) => {
 
-    // FIXME: hack for react 16
-    if(!internalInstance) return;
+  // FIXME: hack for react 16
+  if (!internalInstance) return;
 
-    const id = root._id;
-    internalInstance = componentIdToInstance.get(id);
+  const id = root._id;
+  internalInstance = componentIdToInstance.get(id);
 
-    // 可能有组件未继承自 Component / PureComponent
-    if(!internalInstance) return;
+  // 可能有组件未继承自 Component / PureComponent
+  if (!internalInstance) return;
 
-    // const symbolInternalInstance = idToInstanceMap.get(id);
+  // const symbolInternalInstance = idToInstanceMap.get(id);
 
-    // if(!symbolInternalInstance) {
-    //     return;
-    // }
+  // if(!symbolInternalInstance) {
+  //     return;
+  // }
 
-    // const context = idToContextMap.get(id);
+  // const context = idToContextMap.get(id);
 
-    // clear instance in map
-    // idToInstanceMap.delete(id);
+  // clear instance in map
+  // idToInstanceMap.delete(id);
 
-    // 映射普通方法到 dom
-    let methodsList = internalInstance[exposedSymbol] || [];
-    for (let method of methodsList) {
-        root[method] = internalInstance[method].bind(internalInstance);
-    }
+  // 映射普通方法到 dom
+  let methodsList = internalInstance[exposedSymbol] || [];
+  for (let method of methodsList) {
+    root[method] = internalInstance[method].bind(internalInstance);
+  }
 
-    // 映射 get / set 到 dom
-    let getterSetterList = internalInstance[exposedGetterSetterSymbol] || [];
-    for (let name of getterSetterList) {
+  // 映射 get / set 到 dom
+  let getterSetterList = internalInstance[exposedGetterSetterSymbol] || [];
+  for (let name of getterSetterList) {
 
-        const get = internalInstance.__lookupGetter__(name);
-        const set = internalInstance.__lookupSetter__(name);
+    const get = internalInstance.__lookupGetter__(name);
+    const set = internalInstance.__lookupSetter__(name);
 
-        Object.defineProperty(root, name, {
-            get: get ? get.bind(internalInstance) : get,
-            set: set ? set.bind(internalInstance) : set,
-            // get,
-            // set
-        });
-    }
+    Object.defineProperty(root, name, {
+      get: get ? get.bind(internalInstance) : get,
+      set: set ? set.bind(internalInstance) : set,
+      // get,
+      // set
+    });
+  }
 
 };
 
 
-let recordBySymbol = (instance, name, symbol) => {
-    instance[symbol] = instance[symbol] || new Set();
-    instance[symbol] = instance[symbol].add(name);
+let recordBySymbol = (target, name, symbol) => {
+  target[symbol] = target[symbol] || new Set();
+  target[symbol] = target[symbol].add(name);
 
-    // // 一次记录即可找到索引
-    // if(recordedInstances.has(instance)) {
-    //     // return;
-    // }
-    //
-    // recordedInstances.add(instance);
-    //
-    // // exposeId 自增后, 添加 exposeId 与 instance 关联
-    // exposeIdToInstanceMap.set(++exposeId, instance);
-    //
-    // // 记录 exposeId 到 instance
-    // instance[EXPOSED_METHODS_ID_KEY] = exposeId;
+  // // 一次记录即可找到索引
+  // if(recordedInstances.has(instance)) {
+  //     // return;
+  // }
+  //
+  // recordedInstances.add(instance);
+  //
+  // // exposeId 自增后, 添加 exposeId 与 instance 关联
+  // exposeIdToInstanceMap.set(++exposeId, instance);
+  //
+  // // 记录 exposeId 到 instance
+  // instance[EXPOSED_METHODS_ID_KEY] = exposeId;
 };
 
 /**
@@ -113,19 +113,19 @@ let recordBySymbol = (instance, name, symbol) => {
  * getter / setter 只能成对暴露
  * 即 只要暴露了 getter ，则 setter 也会暴露
  *
- * @param instance
+ * @param target
  * @param name
  * @param descriptor
  */
-export let exposed = (instance, name, descriptor) => {
+export let exposed = (target, name, descriptor) => {
 
-    if (descriptor.get || descriptor.set) {
-        recordBySymbol(instance, name, exposedGetterSetterSymbol);
-    }
+  if (descriptor.get || descriptor.set) {
+    recordBySymbol(target, name, exposedGetterSetterSymbol);
+  }
 
-    if (descriptor.value) {
-        recordBySymbol(instance, name, exposedSymbol);
-    }
+  if (descriptor.value) {
+    recordBySymbol(target, name, exposedSymbol);
+  }
 
 };
 

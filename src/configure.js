@@ -1,5 +1,4 @@
-export let config = {
-};
+export let config = {};
 
 /**
  * 配置
@@ -8,10 +7,10 @@ export let config = {
  * @param namespace
  */
 export let configure = function ({
-                                     store,
-                                     dispatch,
+                                   store,
+                                   dispatch,
                                  }) {
 
-    config.store = store;
-    config.dispatch = dispatch;
+  config.store = store;
+  config.dispatch = dispatch;
 };

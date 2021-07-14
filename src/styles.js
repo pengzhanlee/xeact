@@ -11,8 +11,8 @@ document.head.appendChild(styleEl);
  * @param ReactComponent
  */
 export const registerTagDisplayMode = (elementName, ReactComponent) => {
-    let displayMode = findWrappedComponentFromHOC(ReactComponent).DISPLAY_MODE || 'block';
-    styleEl.innerHTML += `${elementName}{display:${displayMode};}`
+  let displayMode = findWrappedComponentFromHOC(ReactComponent).DISPLAY_MODE || 'block';
+  styleEl.innerHTML += `${elementName}{display:${displayMode};}`
 };
 
 /**
@@ -33,15 +33,15 @@ export const registerTagDisplayMode = (elementName, ReactComponent) => {
  */
 export const moveStyles = (component) => {
 
-    const root = component.props.container;
-    const node = ReactDOM.findDOMNode(component);
+  const root = component.props.container;
+  const node = ReactDOM.findDOMNode(component);
 
-    const styles = root.getAttribute('style');
+  const styles = root.getAttribute('style');
 
 
-    if(styles && node) {
-        root.removeAttribute('style');
-        node.setAttribute('style', styles);
-    }
+  if (styles && node) {
+    root.removeAttribute('style');
+    node.setAttribute('style', styles);
+  }
 
 };
