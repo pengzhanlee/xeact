@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/pengzhanlee/xeact.svg?branch=master)](https://travis-ci.org/pengzhanlee/xeact)
 [![Coverage Status](https://coveralls.io/repos/github/pengzhanlee/xeact/badge.svg?branch=master&service=github)](https://coveralls.io/github/pengzhanlee/xeact?branch=master)
 
-xeact is a JavaScript library for connecting [React Components](https://reactjs.org/docs/react-component.html) and [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
+xeact is a JavaScript library for connecting [React Components](https://reactjs.org/docs/react-component.html)
+and [Web Components - Custom Elements](https://w3c.github.io/webcomponents/spec/custom/)
 
 [README 中文](README-zh_CN.md)
 
@@ -15,7 +16,7 @@ npm install xeact --save
 
 ## Quick Start
 
-1. Register component
+1. Register a component
 
     ```js
     import xeact, {observed, exposed, dispatchEvent, Component} from "xeact";
@@ -59,16 +60,23 @@ npm install xeact --save
     }
     ```
 
-
-2. Import Custom Elements v1 polyfills
+~~2. Import Custom Elements v1 polyfills~~
 
     ```xml
     <script src="/xeact/dist/env.min.js"></script>
     ```
 
+2. Build your components.
+
+  ```shell
+  rollup -c
+  ```
+
 3. Use the registered component as a Custom Element in HTML
 
     ```xml
+    <script src="path/to/your/components.build.js" />
+
     <x-box header="Hello">
         <p>World</p>
     </x-box>
@@ -76,8 +84,7 @@ npm install xeact --save
 
 4. Done
 
-    ![](https://raw.githubusercontent.com/pengzhanlee/xeact/master/docs/image/quickStart.png)
-
+   ![](https://raw.githubusercontent.com/pengzhanlee/xeact/master/docs/image/quickStart.png)
 
 ## API
 
@@ -87,20 +94,19 @@ Define a custom element and connect it to React component.
 
 - **tagName** `string`
 
-    Define tag name of an element.
+  Define tag name of an element.
 
-    There are a few notices on this argument:
+  There are a few notices on this argument:
 
-    - It can only contain lowercase letter `a-z` and `-`.
+  - It can only contain lowercase letter `a-z` and `-`.
 
-    - A `x-` prefix will be added to tag name. For example 'box' means 'x-box' will be defined as a custom element name.
+  - A `x-` prefix will be added to tag name. For example 'box' means 'x-box' will be defined as a custom element name.
 
 - **options.isContainer** `boolean`
 
-    The custom element can own childNodes or not.
+  The custom element can own childNodes or not.
 
-
-    An example of non-container component :
+  An example of non-container component :
 
     ```js
     import xeact from 'xeact';
@@ -116,7 +122,7 @@ Define a custom element and connect it to React component.
     }
     ```
 
-    An example container component:
+  An example container component:
 
     ```js
     import xeact from 'xeact';
@@ -135,8 +141,6 @@ Define a custom element and connect it to React component.
     }
     ```
 
-
-
 ### observed
 
 Observe an dom attribute change.
@@ -144,21 +148,22 @@ Observe an dom attribute change.
 ```js
 import {observed} from 'xeact';
 
-static propTypes = {
-    @observed
-    header: PropTypes.string,
+static
+propTypes = {
+  @observed
+  header: PropTypes.string,
 };
 ```
 
 ```xml
+
 <x-box>...</x-box>
 <script>
-    document.querySelector('x-box').setAttribute('header', 'new header');
+document.querySelector('x-box').setAttribute('header', 'new header');
 </script>
 ```
 
 The box component header prop will receive new value : 'new header'.
-
 
 ### exposed
 
@@ -168,15 +173,17 @@ Expose react method to dom api.
 import {exposed} from 'xeact';
 
 @exposed
-method(...args) {
-    ...
+method(...args)
+{
+...
 }
 ```
 
 ```xml
+
 <x-box>...</x-box>
 <script>
-    document.querySelector('x-box').method(arg);
+document.querySelector('x-box').method(arg);
 </script>
 ```
 
@@ -186,15 +193,15 @@ Dispatch an event from react component.
 
 - **context** `object`
 
-    Always point to the component instance.
+  Always point to the component instance.
 
 - **name** `string`
 
-    Event name.
+  Event name.
 
 - **eventData** `object`
 
-    An object containing data that will be passed to the event handler.
+  An object containing data that will be passed to the event handler.
 
     ```js
     import {dispatchEvent} from 'xeact';
@@ -214,7 +221,6 @@ Dispatch an event from react component.
         });
     </script>
     ```
-
 
 ### Component && PureComponent
 
