@@ -1,3 +1,4 @@
+import React from "react";
 import reactConnector from './connector';
 import logger from '../utils/logger';
 import {findPropTypesFromHOC, getDisplayName} from "../utils/react";
@@ -43,12 +44,89 @@ export function register(name, {
 } = {}) {
 
   return function ReactWebComponentFactory(WrappedComponent) {
+    // console.dir(WrappedComponent);
+
+    // class WrappedComponentClass extends React.Component {
+    //   render() {
+    //     return <WrappedComponent {{...this.props}}/>
+    //   }
+    // }
 
     WrappedComponent.propTypes = WrappedComponent.propTypes || {};
 
     const displayName = `${reactWebComponentDisplayName}(${getDisplayName(WrappedComponent)})`;
 
-    class WebComponentsHOC extends WrappedComponent {
+    /*
+        class WebComponentsHOC extends WrappedComponent {
+
+          static displayName = `${displayName}`;
+
+          static tagName = name;
+
+          static getWrappedComponent() {
+            return WrappedComponent;
+          }
+
+          _id = this.props._id;
+
+          // raiseClassName, 过程中被移出的 className
+          movedClass = raiseClassName ? new Set() : undefined;
+
+          componentDidMount(...args) {
+            logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentDidMount`);
+
+            // 容器类组件装载
+            if (isContainer) {
+              this.__HasAppendChild = paddingContainer(this);
+            }
+
+            if (raiseClassName) {
+              raiseClassNameFn(this);
+            } else {
+              // style 位置应该与 class 位置保持一致
+              // 对于未提升 className 的标签, 移动 style 属性到真正的容器 ref=body
+              // TODO: 样式应该如何控制更合理
+              moveStyles(this);
+              dropClassName(this);
+            }
+
+            super.componentDidMount && super.componentDidMount(...args);
+
+            this.didMount = true;
+          }
+
+          componentDidUpdate(...args) {
+            logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentDidUpdate`);
+
+            // 更新后，对于失败的 paddingContainer 进行重试
+            if (isContainer && !this.__HasAppendChild) {
+              this.__HasAppendChild = paddingContainer(this);
+            }
+
+            if (raiseClassName) {
+              raiseClassNameFn(this);
+            } else {
+              moveStyles(this);
+              dropClassName(this);
+            }
+
+            super.componentDidUpdate && super.componentDidUpdate(...args);
+          }
+
+          componentDidCatch(errorString, errorInfo) {
+            logger.error(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - error: ${errorString} ${errorInfo}`);
+          }
+
+          render() {
+            logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - render`);
+            return super.render();
+          }
+        }
+
+    */
+    class WebComponentsHOC extends React.Component {
+
+      static propTypes = WrappedComponent.propTypes;
 
       static displayName = `${displayName}`;
 
@@ -62,11 +140,6 @@ export function register(name, {
 
       // raiseClassName, 过程中被移出的 className
       movedClass = raiseClassName ? new Set() : undefined;
-
-      componentWillMount(...args) {
-        logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentWillMount`);
-        super.componentWillMount && super.componentWillMount(...args);
-      }
 
       componentDidMount(...args) {
         logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentDidMount`);
@@ -91,16 +164,6 @@ export function register(name, {
         this.didMount = true;
       }
 
-      componentWillUnmount(...args) {
-        logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentWillUnmount`);
-        super.componentWillUnmount && super.componentWillUnmount(...args);
-      }
-
-      componentWillUpdate(...args) {
-        logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentWillUpdate`);
-        super.componentWillUpdate && super.componentWillUpdate(...args);
-      }
-
       componentDidUpdate(...args) {
         logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - componentDidUpdate`);
 
@@ -119,17 +182,10 @@ export function register(name, {
         super.componentDidUpdate && super.componentDidUpdate(...args);
       }
 
-      componentDidCatch(errorString, errorInfo) {
-        logger.error(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - error: ${errorString} ${errorInfo}`);
-      }
-
       render() {
-        logger.debug(`React Lifecycle - ${displayName} - _${logId(this._id)}_ - render`);
-        return super.render();
+        return React.createElement(WrappedComponent, this.props);
       }
-
     }
-
 
     // let observedAttributes = (WrappedComponent.observedAttributes = WrappedComponent.propTypes[observedSymbol] || []);
 
@@ -137,8 +193,9 @@ export function register(name, {
 
     let ComponentPropTypes = findPropTypesFromHOC(WrappedComponent);
 
-    let observedAttributes = (WrappedComponent.observedAttributes = ComponentPropTypes[observedSymbol] || []);
-
+    // let observedAttributes = (WrappedComponent.observedAttributes = ComponentPropTypes[observedSymbol] || []);
+    let observedAttributes = Object.keys(WrappedComponent.observedAttributes || {});
+    console.log(observedAttributes);
     // let observedProps = [];
     // try {
     //     /*
@@ -151,7 +208,7 @@ export function register(name, {
     // }
     // let observedAttributes = (WrappedComponent.observedAttributes = observedProps);
 
-    reactConnector(`${componentNamespace}-${name}`, WebComponentsHOC);
+    reactConnector(`${componentNamespace}-${name}`, WebComponentsHOC, observedAttributes);
 
     logger.info(`register *${componentNamespace}-${name}* with attributes ( ${observedAttributes.length ? observedAttributes.join(' | ') : 'null'} ) observed...`);
     return WebComponentsHOC;

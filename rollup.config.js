@@ -9,7 +9,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const extensions = ['.js'];
 const input = 'src/index.js';
 const external = Object.keys(pkg.peerDependencies);
-
+console.log(external);
 const plugins = [
   nodeResolve({
     extensions,
@@ -22,6 +22,7 @@ const plugins = [
   }),
   commonjs(),
   replace({
+    preventAssignment: false,
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
   (isProd && terser())
@@ -36,7 +37,7 @@ export default [
       sourcemap: true,
     },
     plugins,
-    external
+    external,
   },
   {
     input,
@@ -44,8 +45,9 @@ export default [
       file: pkg.main,
       format: 'cjs',
       sourcemap: true,
+      exports: 'named'
     },
     plugins,
-    external
+    external,
   },
 ];
