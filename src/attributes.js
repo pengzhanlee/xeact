@@ -148,15 +148,20 @@ export let attrsToProps = (attributes) => {
  * 解析 attr 为 prop
  * @param originAttrName
  * @param attrValue
- * @returns {{key, prop: string}}
+ * @returns {{key, prop: string | boolean}}
  */
 export let attrToProp = (originAttrName, attrValue) => {
-
   let key, prop;
 
   if (isAttrIgnored(originAttrName)) {
     key = originAttrName;
     prop = attrValue;
+  } else if (attrValue === null) {
+    key = attrNameParser(originAttrName);
+    prop = false;
+  } else if (attrValue === '') {
+    key = attrNameParser(originAttrName);
+    prop = true;
   } else {
     key = attrNameParser(originAttrName);
     prop = attrValueGuesser(attrValue).value;

@@ -350,6 +350,10 @@ const connector = (elementName, ReactComponent, observedAttributes = []) => {
       }
     }
 
+    get __xeactReactInstance() {
+      return this._reactElement;
+    }
+
   }
 
   // 注册标签样式
